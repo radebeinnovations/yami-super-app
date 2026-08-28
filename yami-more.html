@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>More Yami Services</title>
+  <style>
+    :root{--ink:#1b3040;--muted:#71828c}*{box-sizing:border-box}body{margin:0;background:#17272f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}button{font:inherit}.app{max-width:414px;min-height:100vh;margin:auto;background:linear-gradient(#102433a8,#102433a8),url('assets/images/main/bg_splash.png') center/cover fixed;box-shadow:0 0 30px #0008}.head{padding:18px 20px 72px;background:linear-gradient(135deg,#143b52eb,#0c2635e8);color:#fff}.top{display:flex;align-items:center}.back{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:50%;background:#ffffff20;color:#fff;font-size:27px}.brand{margin-left:11px;font-size:22px;font-weight:850}.head h1{margin:28px 0 4px;font-size:27px}.head p{margin:0;color:#d1e4ec;font-size:13px}.body{padding:0 16px 35px}.panel{margin-top:-48px;padding:18px 13px 14px;border-radius:20px;background:linear-gradient(145deg,#fffffff5,#f8fafbf5);box-shadow:0 8px 22px #00131e55}.panel+.panel{margin-top:18px}.panel h2{margin:0 4px 4px;font-size:19px}.panel>p{margin:0 4px 14px;color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 5px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.service{min-height:89px;padding:6px 0;border:0;border-radius:14px;background:transparent;color:#293a44;text-align:center;font-size:11px;font-weight:700;cursor:pointer}.service:active{background:#edf3f5}.service img{display:block;width:28px;height:28px;margin:0 auto 7px;filter:brightness(0) saturate(100%)}.service small{display:block;margin-top:2px;color:#7a8991;font-size:9px;font-weight:500}.note{margin:19px 4px 0;color:#ecf3f6;font-size:11px;text-align:center;text-shadow:0 1px 3px #000}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="head"><div class="top"><button class="back" aria-label="Back">‹</button><div class="brand">Yami</div></div><h1>More services</h1><p>Everyday services and financial tools in one place.</p></header>
+    <main class="body">
+      <section class="panel"><h2>Explore more</h2><p>Useful everyday services</p><div class="grid three"><button class="service" data-app="food"><img src="svg/restaurant.svg" alt="">Food<small>Order nearby</small></button><button class="service" data-app="vouchers"><img src="svg/pricetags.svg" alt="">Vouchers<small>Buy digital</small></button><button class="service" data-app="school"><img src="svg/school-outline.svg" alt="">School fees<small>Pay education</small></button></div></section>
+      <section class="panel"><h2>Insurance & finances</h2><p>Protect, save, invest, and plan.</p><div class="grid"><button class="service" data-app="insurance"><img src="svg/shield-checkmark-sharp.svg" alt="">Insurance<small>Get cover</small></button><button class="service" data-app="savings"><img src="svg/wallet-outline.svg" alt="">Savings<small>Build a goal</small></button><button class="service" data-app="invest"><img src="svg/trending-up-outline.svg" alt="">Invest<small>Grow money</small></button><button class="service" data-app="credit"><img src="svg/card-outline.svg" alt="">Credit<small>Check options</small></button></div></section>
+      <p class="note">Telecom services are now available from Recharge.</p>
+    </main>
+  </main>
+  <script>
+    const open = (destination,name) => parent !== window ? parent.postMessage({type:'yami:openMiniApp',destination,name},'*') : location.assign(destination);
+    document.querySelector('.back').onclick=()=>{if(parent!==window)parent.postMessage({type:'yami:closeMiniApp'},'*');else location.assign('/tabs/home/home/');};
+    const apps={food:['/food.html','Yami Food'],vouchers:['/yami-services.html?service=vouchers','Digital Vouchers'],school:['/yami-services.html?service=school','School Fees'],insurance:['/yami-services.html?service=insurance','Yami Insurance'],savings:['/yami-finance.html?mode=savings','Yami Savings'],invest:['/yami-finance.html?mode=invest','Yami Invest'],credit:['/yami-finance.html?mode=credit','Yami Credit']};
+    document.querySelectorAll('[data-app]').forEach(button=>button.onclick=()=>open(...apps[button.dataset.app]));
+  </script>
+</body>
+</html>

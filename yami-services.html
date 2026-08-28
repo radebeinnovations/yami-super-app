@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Yami Services</title>
+  <style>
+    :root{--brand:#136a59;--tint:#e7f6f1;--ink:#1d2d34}*{box-sizing:border-box}body{margin:0;background:#17272f;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;color:var(--ink)}button,input,select{font:inherit}.app{max-width:414px;min-height:100vh;margin:auto;background:#f6faf9;box-shadow:0 0 30px #0008}.head{padding:18px 20px 76px;background:linear-gradient(135deg,var(--brand),#0b3f37);color:#fff}.top{display:flex;align-items:center}.back{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#ffffff20;color:#fff;text-decoration:none;font-size:27px}.brand{margin-left:11px;font-size:22px;font-weight:850}.head h1{margin:29px 0 4px;font-size:26px}.head p{margin:0;color:#d6f0e8;font-size:13px}.body{padding:0 16px 35px}.card{margin-top:-52px;padding:17px;border-radius:18px;background:#fff;box-shadow:0 8px 19px #00251b18}.card label{display:block;margin:12px 0 6px;color:#6e7e82;font-size:11px;font-weight:800}.card label:first-child{margin-top:0}.card input,.card select{width:100%;padding:13px;border:1px solid #d9e5e1;border-radius:10px;background:#fbfdfd}.primary{width:100%;margin-top:15px;padding:14px;border:0;border-radius:11px;background:var(--brand);color:#fff;font-weight:800}.title{margin:23px 0 11px;font-size:19px}.option{margin-bottom:10px;padding:15px;border:1px solid #e1eae7;border-radius:15px;background:#fff}.option.selected{border-color:var(--brand);background:var(--tint)}.row{display:flex;justify-content:space-between;gap:12px}.option b{font-size:16px}.option p{margin:5px 0;color:#738183;font-size:12px}.pick{margin-top:9px;padding:8px 12px;border:1px solid #91cabe;border-radius:9px;background:#fff;color:var(--brand);font-weight:800}.receipt{display:none;margin-top:18px;padding:17px;border-radius:15px;background:#e7f6ed;color:#1b7545}.receipt b{display:block;margin-bottom:6px;font-size:17px}.modal{position:fixed;z-index:5;inset:0;display:none;align-items:end;background:#00251d80}.modal.open{display:flex}.sheet{width:100%;padding:14px 20px calc(27px + env(safe-area-inset-bottom));border-radius:24px 24px 0 0;background:#fff}.handle{width:34px;height:4px;margin:0 auto 17px;border-radius:3px;background:#d9e2df}.summary{margin-top:13px;padding:12px;border-radius:11px;background:#f2f7f5;font-size:13px}.summary div{display:flex;justify-content:space-between;margin:7px}.cancel{width:100%;margin-top:9px;padding:10px;border:0;background:none;color:#65747a;font-weight:700}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="head"><div class="top"><a class="back" href="/tabs/home/home/">‹</a><div class="brand">yami services</div></div><h1 id="title"></h1><p id="intro"></p></header>
+    <main class="body"><section class="card"><label id="inputLabel"></label><input id="reference"><label>PAYMENT METHOD</label><select><option>Yami main balance</option></select><button class="primary" id="continueButton">Continue</button></section><h2 class="title">Select an option</h2><div id="options"></div><section class="receipt" id="receipt"><b>Completed successfully ✓</b><span id="receiptText"></span></section></main>
+  </main>
+  <div class="modal" id="modal"><section class="sheet"><div class="handle"></div><h2>Confirm payment</h2><p style="color:#71807f;font-size:13px">Review this demo transaction before charging your Yami main balance.</p><div class="summary" id="summary"></div><button class="primary" id="confirmButton">Confirm from Yami balance</button><button class="cancel" id="cancelButton">Cancel</button></section></div>
+  <script>
+    const kind = new URLSearchParams(location.search).get('service') || 'insurance';
+    const setups = {
+      insurance:{title:'Yami Insurance',intro:'Protect what matters with a quick cover quote.',label:'ITEM OR VEHICLE TO COVER',placeholder:'e.g. 2023 hatchback',options:[['Essential cover','Core protection for everyday needs',119],['Plus cover','Extra cover and roadside support',239],['Complete cover','Comprehensive protection and benefits',399]]},
+      vouchers:{title:'Digital Vouchers',intro:'Buy a gift or shopping voucher in a few taps.',label:'VOUCHER RECIPIENT',placeholder:'Recipient name or mobile number',options:[['R50 shopping voucher','Digital voucher delivered instantly',50],['R100 shopping voucher','More value for everyday spending',100],['R250 shopping voucher','A thoughtful gift for any occasion',250]]},
+      school:{title:'School Fees',intro:'Pay an education bill safely from Yami.',label:'LEARNER OR ACCOUNT REFERENCE',placeholder:'Learner number or school reference',options:[['Activity contribution','One-time school activity payment',180],['Monthly school fees','Current monthly fee instalment',750],['Term fees','Full term payment',2250]]}
+    };
+    const setup = setups[kind] || setups.insurance;
+    const titleEl = document.getElementById('title');
+    const introEl = document.getElementById('intro');
+    const inputLabelEl = document.getElementById('inputLabel');
+    const referenceEl = document.getElementById('reference');
+    const optionsEl = document.getElementById('options');
+    const summaryEl = document.getElementById('summary');
+    const modalEl = document.getElementById('modal');
+    const receiptEl = document.getElementById('receipt');
+    const receiptTextEl = document.getElementById('receiptText');
+    let selected = 0;
+    titleEl.textContent = setup.title;
+    introEl.textContent = setup.intro;
+    inputLabelEl.textContent = setup.label;
+    referenceEl.placeholder = setup.placeholder;
+    document.querySelector('.back').onclick = event => { event.preventDefault(); if (parent !== window) parent.postMessage({type:'yami:closeMiniApp'}, '*'); else location.assign('/tabs/home/home/'); };
+    function render(){ optionsEl.innerHTML = setup.options.map((option,index) => `<article class="option ${selected === index ? 'selected' : ''}"><div class="row"><b>${option[0]}</b><b>R${option[2]}</b></div><p>${option[1]}</p><button class="pick" onclick="selectOption(${index})">${selected === index ? 'Selected' : 'Choose'}</button></article>`).join(''); }
+    function selectOption(index){ selected = index; render(); }
+    document.getElementById('continueButton').onclick = () => { if (!referenceEl.value.trim()) { referenceEl.focus(); return; } const option = setup.options[selected]; summaryEl.innerHTML = `<div><span>${setup.label}</span><b>${referenceEl.value}</b></div><div><span>${option[0]}</span><b>R${option[2]}.00</b></div><div><span>Payment source</span><b>Yami main balance</b></div>`; modalEl.classList.add('open'); };
+    document.getElementById('cancelButton').onclick = () => modalEl.classList.remove('open');
+    document.getElementById('confirmButton').onclick = () => { modalEl.classList.remove('open'); receiptEl.style.display = 'block'; receiptTextEl.textContent = `${setup.title} transaction completed for ${referenceEl.value}.`; };
+    render();
+  </script>
+</body>
+</html>
