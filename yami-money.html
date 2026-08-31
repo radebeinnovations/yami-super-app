@@ -19,7 +19,7 @@
     </main>
   </main>
   <div class="modal" id="modal"><section class="sheet"><div class="handle"></div><h2 id="confirmTitle">Confirm transaction</h2><p>Review the details before continuing from your Yami balance.</p><div class="confirm-summary" id="confirmSummary"></div><button class="primary" id="confirmButton" type="button">Confirm</button><button class="cancel" id="cancelButton" type="button">Cancel</button></section></div>
-  <script>
+  <script src="/yami-wallet.js?v=1"></script><script>
     const flow = new URLSearchParams(location.search).get('flow') || 'send';
     const flows = {
       send:{title:'Send Money',intro:'Pay someone securely from your Yami balance.',label:'RECIPIENT MOBILE NUMBER',value:'072 555 0198',choices:[50,100,250],verb:'Money sent',detail:'sent to'},
@@ -27,17 +27,17 @@
       withdraw:{title:'Withdraw',intro:'Create a secure cash voucher for collection.',label:'COLLECTION METHOD',value:'Yami ATM voucher',choices:[100,250,500],verb:'Withdrawal voucher ready',detail:'prepared for'},
       deposit:{title:'Deposit',intro:'Add money to Yami from a linked payment source.',label:'DEPOSIT FROM',value:'Linked bank card •••• 4821',choices:[100,300,500],verb:'Deposit completed',detail:'added from',adds:true}
     };
-    const config=flows[flow]||flows.send;let selected=0,wallet=10057;
+    const config=flows[flow]||flows.send;let selected=0,wallet=YamiWallet.get();
     const title=document.getElementById('title'),intro=document.getElementById('intro'),inputLabel=document.getElementById('inputLabel'),reference=document.getElementById('reference'),amounts=document.getElementById('amounts'),walletEl=document.getElementById('wallet'),available=document.getElementById('available'),modal=document.getElementById('modal'),formCard=document.getElementById('formCard'),success=document.getElementById('success');
-    const money=value=>`R${value.toLocaleString('en-ZA',{minimumFractionDigits:2})}`;
+    const money=value=>YamiWallet.format(value);
     const back=()=>{if(parent!==window)parent.postMessage({type:'yami:closeMiniApp'},'*');else location.assign('/tabs/home/home/');};
     document.querySelector('.back').onclick=back;
-    title.textContent=config.title;document.title=`${config.title} | Yami`;intro.textContent=config.intro;inputLabel.textContent=config.label;reference.value=config.value;
+    title.textContent=config.title;document.title=`${config.title} | Yami`;intro.textContent=config.intro;inputLabel.textContent=config.label;reference.value=config.value;walletEl.textContent=money(wallet);available.textContent=money(wallet);
     function renderAmounts(){amounts.innerHTML=config.choices.map((amount,index)=>`<button class="amount ${selected===index?'selected':''}" type="button" data-index="${index}">R${amount}</button>`).join('');amounts.querySelectorAll('.amount').forEach(button=>button.onclick=()=>{selected=Number(button.dataset.index);renderAmounts();});}
     document.getElementById('continueButton').onclick=()=>{if(!reference.value.trim())reference.value=config.value;const amount=config.choices[selected];document.getElementById('confirmTitle').textContent=`Confirm ${config.title.toLowerCase()}`;document.getElementById('confirmSummary').innerHTML=`<div><span>${config.label}</span><b>${reference.value}</b></div><div><span>Amount</span><b>${money(amount)}</b></div><div><span>${config.noCharge?'Request delivery':'Payment source'}</span><b>${config.noCharge?'Instant notification':'Yami main balance'}</b></div>`;document.getElementById('confirmButton').textContent=config.noCharge?'Send request':`Confirm · ${money(amount)}`;modal.classList.add('open');};
     document.getElementById('cancelButton').onclick=()=>modal.classList.remove('open');
     modal.onclick=event=>{if(event.target===modal)modal.classList.remove('open');};
-    document.getElementById('confirmButton').onclick=()=>{const amount=config.choices[selected];if(!config.noCharge)wallet=config.adds?wallet+amount:wallet-amount;walletEl.textContent=money(wallet);available.textContent=money(wallet);modal.classList.remove('open');formCard.style.display='none';success.style.display='block';document.getElementById('successTitle').textContent=`${config.verb} ✓`;document.getElementById('successText').textContent=`${money(amount)} ${config.detail} ${reference.value}.`;document.getElementById('receiptCode').textContent=`YAMI-${flow.toUpperCase()}-${String(Date.now()).slice(-6)}`;};
+    document.getElementById('confirmButton').onclick=()=>{const amount=config.choices[selected];let result={ok:true,balance:YamiWallet.get(),transaction:{id:`YAMI-${flow.toUpperCase()}-${String(Date.now()).slice(-6)}`}};if(!config.noCharge)result=config.adds?YamiWallet.credit(amount,{label:config.title,category:'Payments',detail:reference.value}):YamiWallet.debit(amount,{label:config.title,category:'Payments',detail:reference.value});if(!result.ok){document.getElementById('confirmButton').textContent='Insufficient Yami balance';return;}wallet=result.balance;walletEl.textContent=money(wallet);available.textContent=money(wallet);modal.classList.remove('open');formCard.style.display='none';success.style.display='block';document.getElementById('successTitle').textContent=`${config.verb} ✓`;document.getElementById('successText').textContent=`${money(amount)} ${config.detail} ${reference.value}.`;document.getElementById('receiptCode').textContent=result.transaction.id;};
     document.getElementById('doneButton').onclick=back;
     renderAmounts();
   </script>

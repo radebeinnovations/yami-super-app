@@ -54,7 +54,7 @@
     app.querySelector('.telecom-notify').onclick = () => toast(`No new ${selected.name} notifications.`);
     app.querySelectorAll('.carrier-tab').forEach(tab => tab.onclick = () => applyCarrier(tab.dataset.carrier));
     app.querySelector('.telecom-eye').onclick = (event) => { const hidden = event.currentTarget.dataset.hidden === '1'; app.querySelector('.telecom-data').textContent = hidden ? selected.data : '••••••'; app.querySelector('.telecom-airtime').textContent = hidden ? selected.airtime : '••••••'; event.currentTarget.dataset.hidden = hidden ? '0' : '1'; };
-    let yamiBalance = 10057;
+    let yamiBalance = window.YamiWallet?.get() ?? 10057;
     let activeFlow = null;
     let selectedChoice = 0;
     const flows = {
@@ -71,7 +71,7 @@
       mobileMore: { title: 'More mobile services', copy: 'Manage your line, view usage and get help in one place.', choices: [['Usage overview', 0], ['Manage SIM', 0], ['Contact support', 0]], noPayment: true },
     };
     const modal = app.querySelector('#telecomModal');
-    const updateWallet = () => app.querySelector('#walletBalance').textContent = `Yami main balance: R${yamiBalance.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}`;
+    const updateWallet = () => { yamiBalance = window.YamiWallet?.get() ?? yamiBalance; app.querySelector('#walletBalance').textContent = `Yami main balance: ${window.YamiWallet?.format(yamiBalance) ?? `R${yamiBalance.toFixed(2)}`}`; };
     const renderChoices = () => {
       const choices = activeFlow.choices;
       app.querySelector('#flowChoices').innerHTML = choices.map((choice, index) => `<button class="telecom-choice ${index === selectedChoice ? 'selected' : ''}" data-choice="${index}">${choice[0]}</button>`).join('');
@@ -98,8 +98,9 @@
       if (activeFlow.input && !input.value.trim()) { toast(`Enter ${activeFlow.input.toLowerCase()}`); return; }
       const [label, amount] = activeFlow.choices[selectedChoice];
       if (activeFlow.noPayment) { modal.classList.remove('open'); toast(`${activeFlow.title}: ${label}`); return; }
-      if (amount > yamiBalance) { toast('Your Yami main balance is too low'); return; }
-      yamiBalance -= amount; updateWallet(); modal.classList.remove('open'); toast(amount ? `${activeFlow.title} completed successfully` : 'Balance details closed');
+      const result = window.YamiWallet?.debit(amount, { label: `${selected.name} · ${activeFlow.title}`, category: 'Payments', detail: input.value || selected.number }) ?? { ok: amount <= yamiBalance, balance: yamiBalance - amount };
+      if (!result.ok) { toast('Your Yami main balance is too low'); return; }
+      yamiBalance = result.balance; updateWallet(); modal.classList.remove('open'); toast(amount ? `${activeFlow.title} completed successfully · ${window.YamiWallet?.format(yamiBalance) ?? ''}` : 'Balance details closed');
     };
     ['recharge', 'bundles', 'send', 'bill'].forEach((flow, index) => app.querySelectorAll('.telecom-action')[index].onclick = () => openFlow(flow));
     ['transfer', 'voucher', 'fibre', 'upgrade'].forEach((flow, index) => app.querySelectorAll('.telecom-service')[index].onclick = () => openFlow(flow));

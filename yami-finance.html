@@ -14,7 +14,7 @@
     <main class="body"><section class="wallet"><div><small>YAMI MAIN BALANCE</small><b id="wallet">R10,057.00</b></div><span>Y</span></section><section class="card"><label id="inputLabel"></label><input id="reference"><button class="primary" id="continueButton">Continue</button></section><h2 class="title">Choose an option</h2><div id="plans"></div><section class="receipt" id="receipt"><b id="receiptTitle">Completed successfully ✓</b><span id="receiptText"></span></section></main>
   </main>
   <div class="modal" id="modal"><section class="sheet"><div class="handle"></div><h2 id="modalTitle">Confirm request</h2><p style="color:#71807f;font-size:13px">This is a Yami demo. Review the details before confirming.</p><div class="summary" id="summary"></div><button class="primary" id="confirmButton">Confirm</button><button class="cancel" id="cancelButton">Cancel</button></section></div>
-  <script>
+  <script src="/yami-wallet.js?v=1"></script><script>
     const mode = new URLSearchParams(location.search).get('mode') || 'savings';
     const modes = {
       savings:{title:'Savings goals',intro:'Set aside a little for the things that matter.',label:'GOAL NAME',placeholder:'e.g. December holiday',value:'December holiday',verb:'Savings plan activated',plans:[['Start small','Save R200 each month',200],['Steady saver','Save R500 each month',500],['Goal focused','Save R1,000 each month',1000]]},
@@ -23,14 +23,14 @@
     };
     const config = modes[mode] || modes.savings;
     const titleEl=document.getElementById('title'), introEl=document.getElementById('intro'), inputLabelEl=document.getElementById('inputLabel'), referenceEl=document.getElementById('reference'), plansEl=document.getElementById('plans'), summaryEl=document.getElementById('summary'), modalEl=document.getElementById('modal'), receiptEl=document.getElementById('receipt'), receiptTitleEl=document.getElementById('receiptTitle'), receiptTextEl=document.getElementById('receiptText'), walletEl=document.getElementById('wallet');
-    let selected=0, wallet=10057;
+    let selected=0, wallet=YamiWallet.get();walletEl.textContent=YamiWallet.format(wallet);
     titleEl.textContent=config.title;introEl.textContent=config.intro;inputLabelEl.textContent=config.label;referenceEl.placeholder=config.placeholder;referenceEl.value=config.value;
     document.querySelector('.back').onclick=event=>{event.preventDefault();if(parent!==window)parent.postMessage({type:'yami:closeMiniApp'},'*');else location.assign('/tabs/home/home/');};
     function render(){plansEl.innerHTML=config.plans.map((plan,index)=>`<article class="plan ${selected===index?'selected':''}"><div class="row"><b>${plan[0]}</b><b>${plan[2] ? `R${plan[2]}` : 'Estimate'}</b></div><p>${plan[1]}</p><button class="pick" onclick="selectPlan(${index})">${selected===index?'Selected':'Choose'}</button></article>`).join('');}
     function selectPlan(index){selected=index;render();}
     document.getElementById('continueButton').onclick=()=>{if(!referenceEl.value.trim()){referenceEl.focus();return;}const plan=config.plans[selected];summaryEl.innerHTML=`<div><span>${config.label}</span><b>${referenceEl.value}</b></div><div><span>${plan[0]}</span><b>${plan[1]}</b></div><div><span>Yami main balance</span><b>R${wallet.toLocaleString('en-ZA',{minimumFractionDigits:2})}</b></div>`;document.getElementById('modalTitle').textContent=mode==='credit'?'Confirm enquiry':'Confirm selection';document.getElementById('confirmButton').textContent=mode==='credit'?'Submit enquiry':`Confirm R${plan[2]}.00`;modalEl.classList.add('open');};
     document.getElementById('cancelButton').onclick=()=>modalEl.classList.remove('open');
-    document.getElementById('confirmButton').onclick=()=>{const plan=config.plans[selected];modalEl.classList.remove('open');if(plan[2]){wallet-=plan[2];walletEl.textContent=`R${wallet.toLocaleString('en-ZA',{minimumFractionDigits:2})}`;}receiptEl.style.display='block';receiptTitleEl.textContent=`${config.verb} ✓`;receiptTextEl.textContent=mode==='credit'?`Your ${plan[0].toLowerCase()} enquiry for ${referenceEl.value} is ready for review.`:`Your ${plan[0].toLowerCase()} for ${referenceEl.value} is set up.`;};
+    document.getElementById('confirmButton').onclick=()=>{const plan=config.plans[selected];let result={ok:true,balance:YamiWallet.get()};if(plan[2])result=YamiWallet.debit(plan[2],{label:config.title,category:'Services',detail:referenceEl.value});if(!result.ok){document.getElementById('confirmButton').textContent='Insufficient Yami balance';return;}modalEl.classList.remove('open');wallet=result.balance;walletEl.textContent=YamiWallet.format(wallet);receiptEl.style.display='block';receiptTitleEl.textContent=`${config.verb} ✓`;receiptTextEl.textContent=mode==='credit'?`Your ${plan[0].toLowerCase()} enquiry for ${referenceEl.value} is ready for review.`:`Your ${plan[0].toLowerCase()} for ${referenceEl.value} is set up. New balance: ${YamiWallet.format(wallet)}.`;};
     render();
   </script>
 </body>

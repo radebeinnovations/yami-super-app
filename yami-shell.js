@@ -20,11 +20,20 @@
     });
   };
 
+  const syncWalletDisplay = () => {
+    if (!window.YamiWallet) return;
+    const accountBalance = document.querySelector('.wallet b');
+    if (accountBalance && /^R[\d\s,.]+$/.test(accountBalance.textContent.trim())) accountBalance.textContent = window.YamiWallet.format(window.YamiWallet.get());
+  };
+
   const style = document.createElement('style');
   style.textContent = `
     .back,.mini-back,[data-yami-back]{display:grid!important;place-items:center!important;width:42px!important;height:42px!important;min-width:42px!important;padding:0!important;border:0!important;border-radius:50%!important;background:#17394d!important;color:#fff!important;font:400 29px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;box-shadow:0 5px 14px rgba(8,33,48,.24)!important;text-decoration:none!important;cursor:pointer!important;transition:transform .18s ease,background .18s ease!important}.back:hover,.mini-back:hover,[data-yami-back]:hover{background:#ff671d!important;transform:translateY(-1px)}.back:active,.mini-back:active,[data-yami-back]:active{transform:scale(.95)}
   `;
   document.head.appendChild(style);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyYamiBack, { once: true });
-  else applyYamiBack();
+  const boot = () => { applyYamiBack(); syncWalletDisplay(); };
+  window.addEventListener('yami:wallet-ready', syncWalletDisplay);
+  window.addEventListener('yami:wallet-changed', syncWalletDisplay);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
+  else boot();
 })();

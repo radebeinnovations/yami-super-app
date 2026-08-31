@@ -14,7 +14,7 @@
     <main class="body"><section class="card"><label id="inputLabel"></label><input id="reference"><label>PAYMENT METHOD</label><select><option>Yami main balance</option></select><button class="primary" id="continueButton">Continue</button></section><h2 class="title">Select an option</h2><div id="options"></div><section class="receipt" id="receipt"><b>Completed successfully ✓</b><span id="receiptText"></span></section></main>
   </main>
   <div class="modal" id="modal"><section class="sheet"><div class="handle"></div><h2>Confirm payment</h2><p style="color:#71807f;font-size:13px">Review this demo transaction before charging your Yami main balance.</p><div class="summary" id="summary"></div><button class="primary" id="confirmButton">Confirm from Yami balance</button><button class="cancel" id="cancelButton">Cancel</button></section></div>
-  <script>
+  <script src="/yami-wallet.js?v=1"></script><script>
     const kind = new URLSearchParams(location.search).get('service') || 'insurance';
     const setups = {
       insurance:{title:'Yami Insurance',intro:'Protect what matters with a quick cover quote.',label:'ITEM OR VEHICLE TO COVER',placeholder:'e.g. 2023 hatchback',value:'2023 Toyota Starlet',options:[['Essential cover','Core protection for everyday needs',119],['Plus cover','Extra cover and roadside support',239],['Complete cover','Comprehensive protection and benefits',399]]},
@@ -42,7 +42,7 @@
     function selectOption(index){ selected = index; render(); }
     document.getElementById('continueButton').onclick = () => { if (!referenceEl.value.trim()) { referenceEl.focus(); return; } const option = setup.options[selected]; summaryEl.innerHTML = `<div><span>${setup.label}</span><b>${referenceEl.value}</b></div><div><span>${option[0]}</span><b>R${option[2]}.00</b></div><div><span>Payment source</span><b>Yami main balance</b></div>`; modalEl.classList.add('open'); };
     document.getElementById('cancelButton').onclick = () => modalEl.classList.remove('open');
-    document.getElementById('confirmButton').onclick = () => { modalEl.classList.remove('open'); receiptEl.style.display = 'block'; receiptTextEl.textContent = `${setup.title} transaction completed for ${referenceEl.value}.`; };
+    document.getElementById('confirmButton').onclick = () => { const option=setup.options[selected];const result=YamiWallet.debit(option[2],{label:setup.title,category:'Services',detail:referenceEl.value});if(!result.ok){document.getElementById('confirmButton').textContent='Insufficient Yami balance';return;}modalEl.classList.remove('open'); receiptEl.style.display = 'block'; receiptTextEl.textContent = `${setup.title} transaction completed for ${referenceEl.value}. New balance: ${result.formatted}.`; };
     render();
   </script>
 </body>
