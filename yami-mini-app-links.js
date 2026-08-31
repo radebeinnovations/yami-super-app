@@ -136,7 +136,7 @@
       quickActions.querySelectorAll('[data-yami-money]').forEach(button => button.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopImmediatePropagation();
-        openMiniApp(`/yami-money.html?flow=${button.dataset.yamiMoney}`, button.textContent.trim());
+        openMiniApp(`/yami-money.html?flow=${button.dataset.yamiMoney}&v=2`, button.textContent.trim());
       }, true));
     }
   };
