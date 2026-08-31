@@ -17,9 +17,9 @@
   <script>
     const kind = new URLSearchParams(location.search).get('service') || 'insurance';
     const setups = {
-      insurance:{title:'Yami Insurance',intro:'Protect what matters with a quick cover quote.',label:'ITEM OR VEHICLE TO COVER',placeholder:'e.g. 2023 hatchback',options:[['Essential cover','Core protection for everyday needs',119],['Plus cover','Extra cover and roadside support',239],['Complete cover','Comprehensive protection and benefits',399]]},
-      vouchers:{title:'Digital Vouchers',intro:'Buy a gift or shopping voucher in a few taps.',label:'VOUCHER RECIPIENT',placeholder:'Recipient name or mobile number',options:[['R50 shopping voucher','Digital voucher delivered instantly',50],['R100 shopping voucher','More value for everyday spending',100],['R250 shopping voucher','A thoughtful gift for any occasion',250]]},
-      school:{title:'School Fees',intro:'Pay an education bill safely from Yami.',label:'LEARNER OR ACCOUNT REFERENCE',placeholder:'Learner number or school reference',options:[['Activity contribution','One-time school activity payment',180],['Monthly school fees','Current monthly fee instalment',750],['Term fees','Full term payment',2250]]}
+      insurance:{title:'Yami Insurance',intro:'Protect what matters with a quick cover quote.',label:'ITEM OR VEHICLE TO COVER',placeholder:'e.g. 2023 hatchback',value:'2023 Toyota Starlet',options:[['Essential cover','Core protection for everyday needs',119],['Plus cover','Extra cover and roadside support',239],['Complete cover','Comprehensive protection and benefits',399]]},
+      vouchers:{title:'Digital Vouchers',intro:'Buy a gift or shopping voucher in a few taps.',label:'VOUCHER RECIPIENT',placeholder:'Recipient name or mobile number',value:'072 555 0198',options:[['R50 shopping voucher','Digital voucher delivered instantly',50],['R100 shopping voucher','More value for everyday spending',100],['R250 shopping voucher','A thoughtful gift for any occasion',250]]},
+      school:{title:'School Fees',intro:'Pay an education bill safely from Yami.',label:'LEARNER OR ACCOUNT REFERENCE',placeholder:'Learner number or school reference',value:'YAMI-LEARNER-2048',options:[['Activity contribution','One-time school activity payment',180],['Monthly school fees','Current monthly fee instalment',750],['Term fees','Full term payment',2250]]}
     };
     const setup = setups[kind] || setups.insurance;
     const titleEl = document.getElementById('title');
@@ -36,6 +36,7 @@
     introEl.textContent = setup.intro;
     inputLabelEl.textContent = setup.label;
     referenceEl.placeholder = setup.placeholder;
+    referenceEl.value = setup.value;
     document.querySelector('.back').onclick = event => { event.preventDefault(); if (parent !== window) parent.postMessage({type:'yami:closeMiniApp'}, '*'); else location.assign('/tabs/home/home/'); };
     function render(){ optionsEl.innerHTML = setup.options.map((option,index) => `<article class="option ${selected === index ? 'selected' : ''}"><div class="row"><b>${option[0]}</b><b>R${option[2]}</b></div><p>${option[1]}</p><button class="pick" onclick="selectOption(${index})">${selected === index ? 'Selected' : 'Choose'}</button></article>`).join(''); }
     function selectOption(index){ selected = index; render(); }

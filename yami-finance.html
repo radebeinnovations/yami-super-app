@@ -17,14 +17,14 @@
   <script>
     const mode = new URLSearchParams(location.search).get('mode') || 'savings';
     const modes = {
-      savings:{title:'Savings goals',intro:'Set aside a little for the things that matter.',label:'GOAL NAME',placeholder:'e.g. December holiday',verb:'Savings plan activated',plans:[['Start small','Save R200 each month',200],['Steady saver','Save R500 each month',500],['Goal focused','Save R1,000 each month',1000]]},
-      invest:{title:'Invest with Yami',intro:'Explore simple ways to start growing your money.',label:'INVESTMENT GOAL',placeholder:'e.g. Long-term growth',verb:'Investment instruction created',plans:[['Starter portfolio','Start with R250',250],['Growth portfolio','Start with R500',500],['Balanced portfolio','Start with R1,000',1000]]},
-      credit:{title:'Credit options',intro:'See a simple, transparent finance estimate.',label:'PURPOSE OF CREDIT',placeholder:'e.g. Home appliance',verb:'Credit enquiry received',plans:[['Flex credit','Estimated limit up to R1,000',0],['Everyday credit','Estimated limit up to R3,000',0],['Planned purchase','Estimated limit up to R7,500',0]]}
+      savings:{title:'Savings goals',intro:'Set aside a little for the things that matter.',label:'GOAL NAME',placeholder:'e.g. December holiday',value:'December holiday',verb:'Savings plan activated',plans:[['Start small','Save R200 each month',200],['Steady saver','Save R500 each month',500],['Goal focused','Save R1,000 each month',1000]]},
+      invest:{title:'Invest with Yami',intro:'Explore simple ways to start growing your money.',label:'INVESTMENT GOAL',placeholder:'e.g. Long-term growth',value:'Long-term growth',verb:'Investment instruction created',plans:[['Starter portfolio','Start with R250',250],['Growth portfolio','Start with R500',500],['Balanced portfolio','Start with R1,000',1000]]},
+      credit:{title:'Credit options',intro:'See a simple, transparent finance estimate.',label:'PURPOSE OF CREDIT',placeholder:'e.g. Home appliance',value:'Home appliance',verb:'Credit enquiry received',plans:[['Flex credit','Estimated limit up to R1,000',0],['Everyday credit','Estimated limit up to R3,000',0],['Planned purchase','Estimated limit up to R7,500',0]]}
     };
     const config = modes[mode] || modes.savings;
     const titleEl=document.getElementById('title'), introEl=document.getElementById('intro'), inputLabelEl=document.getElementById('inputLabel'), referenceEl=document.getElementById('reference'), plansEl=document.getElementById('plans'), summaryEl=document.getElementById('summary'), modalEl=document.getElementById('modal'), receiptEl=document.getElementById('receipt'), receiptTitleEl=document.getElementById('receiptTitle'), receiptTextEl=document.getElementById('receiptText'), walletEl=document.getElementById('wallet');
     let selected=0, wallet=10057;
-    titleEl.textContent=config.title;introEl.textContent=config.intro;inputLabelEl.textContent=config.label;referenceEl.placeholder=config.placeholder;
+    titleEl.textContent=config.title;introEl.textContent=config.intro;inputLabelEl.textContent=config.label;referenceEl.placeholder=config.placeholder;referenceEl.value=config.value;
     document.querySelector('.back').onclick=event=>{event.preventDefault();if(parent!==window)parent.postMessage({type:'yami:closeMiniApp'},'*');else location.assign('/tabs/home/home/');};
     function render(){plansEl.innerHTML=config.plans.map((plan,index)=>`<article class="plan ${selected===index?'selected':''}"><div class="row"><b>${plan[0]}</b><b>${plan[2] ? `R${plan[2]}` : 'Estimate'}</b></div><p>${plan[1]}</p><button class="pick" onclick="selectPlan(${index})">${selected===index?'Selected':'Choose'}</button></article>`).join('');}
     function selectPlan(index){selected=index;render();}
