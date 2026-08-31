@@ -48,7 +48,6 @@
       app.querySelector('#offerLabel').textContent = `${selected.name.toUpperCase()} OFFER`;
       app.querySelector('#offerText').textContent = selected.offer;
       app.querySelectorAll('.carrier-tab').forEach(tab => tab.classList.toggle('selected', tab.dataset.carrier === key));
-      toast(`${selected.name} theme selected`);
     };
     app.querySelector('.telecom-close').onclick = close;
     app.querySelector('.telecom-notify').onclick = () => toast(`No new ${selected.name} notifications.`);
