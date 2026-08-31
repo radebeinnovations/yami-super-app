@@ -124,9 +124,33 @@
   };
 
   let dashboardObserver;
-  const bootDashboard = () => attachMiniAppLinks();
-  dashboardObserver = new MutationObserver(bootDashboard);
+  let dashboardObserverTimeout;
+  let dashboardBootQueued = false;
+  const stopDashboardObserver = () => {
+    dashboardObserver?.disconnect();
+    window.clearTimeout(dashboardObserverTimeout);
+  };
+  const bootDashboard = () => {
+    attachMiniAppLinks();
+    const loginReady = Boolean(document.querySelector('ion-input[formcontrolname="password"]'));
+    const dashboardReady = Boolean(
+      document.querySelector('[data-yami-telecom]') &&
+      document.querySelector('[data-yami-mini-app="Yami Electricity"]') &&
+      document.querySelector('[data-yami-mini-app="More Yami services"]')
+    );
+    if (loginReady || dashboardReady) stopDashboardObserver();
+  };
+  const scheduleDashboardBoot = () => {
+    if (dashboardBootQueued) return;
+    dashboardBootQueued = true;
+    window.requestAnimationFrame(() => {
+      dashboardBootQueued = false;
+      bootDashboard();
+    });
+  };
+  dashboardObserver = new MutationObserver(scheduleDashboardBoot);
   dashboardObserver.observe(document.documentElement, { childList: true, subtree: true });
-  document.addEventListener('DOMContentLoaded', bootDashboard);
-  window.addEventListener('load', bootDashboard);
+  dashboardObserverTimeout = window.setTimeout(stopDashboardObserver, 7000);
+  document.addEventListener('DOMContentLoaded', bootDashboard, { once: true });
+  window.addEventListener('load', bootDashboard, { once: true });
 })();
