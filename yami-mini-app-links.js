@@ -82,7 +82,7 @@
     if (!document.getElementById('yami-login-brand-style')) {
       const style = document.createElement('style');
       style.id = 'yami-login-brand-style';
-      style.textContent = '.logo-wrapper.yami-login-brand{position:relative!important;background-image:none!important}.logo-wrapper.yami-login-brand::before{position:absolute;top:calc(50% - 37px);left:50%;width:60px;height:60px;background:url("/ic_logo_splash.6ef2161fd56ca2c2.png") center top/60px auto no-repeat;content:"";transform:translateX(-50%)}.logo-wrapper.yami-login-brand::after{position:absolute;top:calc(50% + 27px);left:50%;color:#fff;content:"Yami";font:700 15px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.2px;text-shadow:0 1px 2px rgba(0,0,0,.35);transform:translateX(-50%)}';
+      style.textContent = '.logo-wrapper.yami-login-brand{position:relative!important;background-image:none!important}.logo-wrapper.yami-login-brand>*{visibility:hidden!important}.logo-wrapper.yami-login-brand::before{position:absolute;z-index:1;top:calc(50% - 37px);left:50%;width:60px;height:60px;background:url("/ic_logo_splash.6ef2161fd56ca2c2.png") center top/60px auto no-repeat;content:"";transform:translateX(-50%)}.logo-wrapper.yami-login-brand::after{position:absolute;z-index:1;top:calc(50% + 27px);left:50%;color:#fff;content:"Yami";font:700 15px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:.2px;text-shadow:0 1px 2px rgba(0,0,0,.35);transform:translateX(-50%)}';
       document.head.appendChild(style);
     }
     logo.classList.add('yami-login-brand');
@@ -120,37 +120,33 @@
       if (title === 'More') linkTile(label, '/yami-more.html', 'More Yami services');
     });
     syncDashboardCards();
-    if (document.querySelector('[data-yami-telecom]') && document.querySelector('[data-yami-mini-app="Yami Electricity"]') && document.querySelector('[data-yami-mini-app="More Yami services"]')) dashboardObserver?.disconnect();
   };
 
-  let dashboardObserver;
-  let dashboardObserverTimeout;
-  let dashboardBootQueued = false;
-  const stopDashboardObserver = () => {
-    dashboardObserver?.disconnect();
-    window.clearTimeout(dashboardObserverTimeout);
+  let dashboardPoll;
+  const stopDashboardPoll = () => {
+    window.clearInterval(dashboardPoll);
+    dashboardPoll = undefined;
   };
-  const bootDashboard = () => {
-    attachMiniAppLinks();
-    const loginReady = Boolean(document.querySelector('ion-input[formcontrolname="password"]'));
-    const dashboardReady = Boolean(
-      document.querySelector('[data-yami-telecom]') &&
-      document.querySelector('[data-yami-mini-app="Yami Electricity"]') &&
-      document.querySelector('[data-yami-mini-app="More Yami services"]')
-    );
-    if (loginReady || dashboardReady) stopDashboardObserver();
+  const pollDashboard = (duration = 12000) => {
+    stopDashboardPoll();
+    const deadline = Date.now() + duration;
+    const bootDashboard = () => {
+      attachMiniAppLinks();
+      if (Date.now() >= deadline) stopDashboardPoll();
+    };
+    bootDashboard();
+    dashboardPoll = window.setInterval(bootDashboard, 250);
   };
-  const scheduleDashboardBoot = () => {
-    if (dashboardBootQueued) return;
-    dashboardBootQueued = true;
-    window.requestAnimationFrame(() => {
-      dashboardBootQueued = false;
-      bootDashboard();
-    });
-  };
-  dashboardObserver = new MutationObserver(scheduleDashboardBoot);
-  dashboardObserver.observe(document.documentElement, { childList: true, subtree: true });
-  dashboardObserverTimeout = window.setTimeout(stopDashboardObserver, 7000);
-  document.addEventListener('DOMContentLoaded', bootDashboard, { once: true });
-  window.addEventListener('load', bootDashboard, { once: true });
+  const refreshAfterNavigation = () => window.setTimeout(() => pollDashboard(), 0);
+  ['pushState', 'replaceState'].forEach((method) => {
+    const original = history[method];
+    history[method] = function (...args) {
+      const result = original.apply(this, args);
+      refreshAfterNavigation();
+      return result;
+    };
+  });
+  window.addEventListener('popstate', refreshAfterNavigation);
+  document.addEventListener('DOMContentLoaded', () => pollDashboard(), { once: true });
+  window.addEventListener('load', () => pollDashboard(), { once: true });
 })();
