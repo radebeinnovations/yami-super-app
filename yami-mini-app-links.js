@@ -6,13 +6,22 @@
     overlay.setAttribute('aria-label', `${name} mini app`);
     overlay.innerHTML = `<style>.yami-mini-overlay{position:fixed;z-index:2147483646;inset:0;background:#111}.yami-mini-overlay iframe{display:block;width:100%;height:100%;border:0;background:#fff}.yami-mini-overlay .yami-close{position:absolute;z-index:2;top:12px;right:12px;width:34px;height:34px;border:0;border-radius:50%;background:#102d43d9;color:#fff;font-size:23px;line-height:1;cursor:pointer}</style><button class="yami-close" aria-label="Close ${name}">×</button><iframe title="${name}" src="${destination}"></iframe>`;
     overlay.querySelector('.yami-close').onclick = () => overlay.remove();
+    const frame = overlay.querySelector('iframe');
+    frame.addEventListener('load', () => {
+      const frameDocument = frame.contentDocument;
+      if (!frameDocument || frameDocument.getElementById('yami-shell-script')) return;
+      const shell = frameDocument.createElement('script');
+      shell.id = 'yami-shell-script';
+      shell.src = '/yami-shell.js?v=1';
+      frameDocument.body.appendChild(shell);
+    });
     document.body.appendChild(overlay);
   };
   window.addEventListener('message', (event) => {
     if (event.data?.type === 'yami:closeMiniApp') document.querySelector('.yami-mini-overlay')?.remove();
     if (event.data?.type === 'yami:openMiniApp' && event.data.destination) openMiniApp(event.data.destination, event.data.name || 'Yami service');
   });
-  const tileFor = (label) => label.closest('ion-col, ion-item, button, [routerlink]');
+  const tileFor = (label) => label.closest('ion-col, ion-item, ion-tab-button, button, [routerlink]');
   const linkTile = (label, destination, name) => {
     const tile = tileFor(label);
     if (!tile || tile.dataset.yamiMiniApp) return null;
@@ -118,6 +127,8 @@
       if (title === 'Recharge') linkTelecom(label);
       if (title === 'Electricity') linkTile(label, '/yami-electricity.html', 'Yami Electricity');
       if (title === 'More') linkTile(label, '/yami-more.html', 'More Yami services');
+      if (title === 'History') linkTile(label, '/yami-history.html', 'Yami activity');
+      if (title === 'Account') linkTile(label, '/yami-account.html', 'Yami account');
     });
     syncDashboardCards();
   };
