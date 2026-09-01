@@ -115,7 +115,7 @@
       style.textContent = `
         ion-card.yami-sync-card{--background:#fff!important;margin:18px 16px 0!important;border-radius:20px!important;background:linear-gradient(145deg,#fff,#f8fafc)!important;box-shadow:0 8px 22px rgba(5,31,48,.16)!important;overflow:hidden!important}ion-card.yami-sync-card ion-card-header,ion-card.yami-sync-card ion-card-content{background:transparent!important}ion-card.yami-sync-card ion-card-header{padding:18px 18px 6px!important}ion-card.yami-sync-card ion-card-subtitle,.yami-quick-title{color:#1b3040!important;font:800 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;text-transform:none!important;letter-spacing:0!important}.yami-quick-title{padding:18px 18px 11px}.top-card-content.yami-sync-card{min-height:0!important;padding:0 10px 14px!important}.top-card-content.yami-sync-card ion-grid{padding:0!important}.top-card-content.yami-sync-card ion-col{padding:7px 2px!important}.top-card-content.yami-sync-card ion-label{min-height:24px!important}ion-card.yami-sync-card ion-card-content{padding:6px 10px 13px!important}ion-card.yami-sync-card ion-grid{padding:5px 2px!important}ion-card.yami-sync-card ion-col{padding:7px 2px!important}ion-card.yami-sync-card button{width:100%;min-width:0!important;padding:2px 0!important;background:transparent!important;color:#1c2d37!important;box-shadow:none!important;text-transform:none!important}ion-card.yami-sync-card ion-icon{width:31px!important;height:31px!important;margin:0 auto 6px!important;color:#000!important;filter:brightness(0) saturate(100%)}ion-card.yami-sync-card ion-label{display:block!important;min-height:27px!important;white-space:normal!important;color:#263641!important;font:600 11px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important}.yami-water-icon{display:grid;place-items:center;width:31px;height:31px;margin:0 auto 6px;color:#000}.yami-water-icon svg{width:31px;height:31px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.yami-money-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:0 3px}.yami-money-action{display:flex!important;min-height:86px!important;align-items:center;justify-content:flex-start;flex-direction:column;border:0!important;border-radius:15px!important;padding:7px 2px 5px!important;background:transparent!important;color:#243743!important;cursor:pointer;transition:background .18s ease,transform .18s ease!important}.yami-money-action:hover{background:#edf3f6!important}.yami-money-action:active{background:#e6eef2!important;transform:scale(.96)}.yami-money-icon{display:grid;place-items:center;width:44px;height:44px;margin-bottom:7px;border-radius:14px;background:#edf3f6;color:#17394d}.yami-money-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.yami-money-action span:last-child{font:700 11px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;text-align:center;white-space:normal}.card-wrapper.yami-sync-card{padding:5px 0!important}.card-wrapper.yami-sync-card .account-balance{--background:transparent!important;--padding-start:14px!important;--inner-padding-end:14px!important;background:transparent!important}.card-wrapper.yami-sync-card .balance-grid{display:grid!important;grid-template-columns:58px minmax(0,1fr) auto!important;align-items:center!important;width:100%!important}.card-wrapper.yami-sync-card .grid-col h5{margin:0!important;color:#1b3040!important;font:800 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important}.card-wrapper.yami-sync-card .grid-col.last{display:block!important;visibility:visible!important;white-space:nowrap!important;color:#1b3040!important;font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;text-align:right!important}.yami-logo-mark{display:flex;flex-direction:column;align-items:center;justify-content:center;width:54px;height:54px;color:#ff671d;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:900;line-height:1}.yami-logo-mark span{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#ff671d;color:#fff;font-size:23px;font-style:italic}.yami-logo-mark small{margin-top:2px;font-size:9px;font-weight:900;letter-spacing:.35px}.adverts-wrapper.yami-sync-card{display:none!important}
       `;
-      style.textContent += '.yami-money-icon{background:transparent!important;color:#000!important}.yami-money-icon svg{width:31px!important;height:31px!important;stroke-width:1.7!important}';
+      style.textContent += '.yami-money-icon{background:#edf3f6!important;color:#17394d!important;border:1px solid #e1ebef!important;box-shadow:0 2px 6px rgba(23,57,77,.06)!important}.yami-money-icon svg{width:24px!important;height:24px!important;stroke-width:1.9!important}';
       document.head.appendChild(style);
     }
     document.querySelectorAll('ion-card.card-wrapper,ion-card.top-card-content,ion-card.bills-wrapper,ion-card.adverts-wrapper').forEach(card => card.classList.add('yami-sync-card'));
@@ -168,22 +168,24 @@
     syncDashboardCards();
   };
 
-  let dashboardPoll;
-  const stopDashboardPoll = () => {
-    window.clearInterval(dashboardPoll);
-    dashboardPoll = undefined;
+  // Watch for Ionic route rendering without running a 250ms polling loop.
+  // The old interval repeatedly rewrote cards on mobile and caused visible
+  // flicker/high CPU usage that looked like the page was refreshing.
+  let dashboardTimer;
+  let dashboardObserver;
+  const scheduleDashboardSync = () => {
+    window.clearTimeout(dashboardTimer);
+    dashboardTimer = window.setTimeout(() => attachMiniAppLinks(), 80);
   };
-  const pollDashboard = (duration = 12000) => {
-    stopDashboardPoll();
-    const deadline = Date.now() + duration;
-    const bootDashboard = () => {
-      attachMiniAppLinks();
-      if (Date.now() >= deadline) stopDashboardPoll();
-    };
-    bootDashboard();
-    dashboardPoll = window.setInterval(bootDashboard, 250);
+  const observeDashboard = () => {
+    scheduleDashboardSync();
+    if (dashboardObserver || !document.body) return;
+    dashboardObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => mutation.addedNodes.length || mutation.removedNodes.length)) scheduleDashboardSync();
+    });
+    dashboardObserver.observe(document.body, { childList: true, subtree: true });
   };
-  const refreshAfterNavigation = () => window.setTimeout(() => pollDashboard(), 0);
+  const refreshAfterNavigation = () => scheduleDashboardSync();
   ['pushState', 'replaceState'].forEach((method) => {
     const original = history[method];
     history[method] = function (...args) {
@@ -193,6 +195,7 @@
     };
   });
   window.addEventListener('popstate', refreshAfterNavigation);
-  document.addEventListener('DOMContentLoaded', () => pollDashboard(), { once: true });
-  window.addEventListener('load', () => pollDashboard(), { once: true });
+  document.addEventListener('DOMContentLoaded', observeDashboard, { once: true });
+  window.addEventListener('load', observeDashboard, { once: true });
+  if (document.readyState !== 'loading') observeDashboard();
 })();
