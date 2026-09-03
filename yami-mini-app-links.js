@@ -148,7 +148,7 @@
     document.querySelectorAll('[data-vodacom-tile],[data-yami-added-tile],.yami-explore-card').forEach(tile => tile.remove());
     document.querySelectorAll('ion-label').forEach((label) => {
       const title = label.textContent.trim();
-      if (title === 'Train') linkTile(label, '/prasa.html', 'PRASA trains');
+      if (title === 'Train') linkTile(label, '/prasa.html?v=20260903c', 'PRASA trains');
       if (title === 'Flights') linkTile(label, '/flights.html', 'Yami Flights');
       if (title === 'DSTV') linkTile(label, '/dstv.html', 'DStv');
       if (title === 'Bus') linkTile(label, '/quickbus.html', 'QuickBus');
