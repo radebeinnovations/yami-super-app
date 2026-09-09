@@ -188,7 +188,7 @@
       if (title === 'Food') linkTile(label, '/food.html', 'Yami Food');
       if (title === 'Vodacom') linkTelecom(label);
       if (title === 'DSTV') linkTile(label, '/dstv.html', 'DStv');
-      if (title === 'Bus') linkTile(label, '/quickbus.html', 'QuickBus');
+      if (title === 'Bus') linkTile(label, `/ktvr.html?v=${Date.now()}`, 'KTVR Bus Service');
       if (title === 'Recharge') linkTelecom(label);
       if (title === 'Electricity') linkTile(label, '/yami-electricity.html', 'Yami Electricity');
       if (title === 'Internet') {

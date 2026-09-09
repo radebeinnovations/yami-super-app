@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KTVR Bus Service | Yami</title>
+<style>
+:root{--ink:#121a24;--ink2:#1b2937;--lime:#95d600;--cyan:#31b6e8;--red:#df2f2f;--yellow:#ffd447;--paper:#f5f8fa;--muted:#667784}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.app{min-height:100vh;overflow:hidden}
+.hero{position:relative;min-height:570px;color:#fff;background:linear-gradient(180deg,rgba(8,17,25,.28),rgba(8,17,25,.82)),url('assets/ktvr-buses-hero.png') center/cover}.hero:after{content:"KTVR";position:absolute;right:-30px;bottom:-70px;font-weight:900;font-size:clamp(9rem,28vw,20rem);line-height:1;color:rgba(149,214,0,.16);letter-spacing:-.08em;transform:rotate(-8deg);pointer-events:none;animation:drift 9s ease-in-out infinite alternate}@keyframes drift{to{transform:translate(-22px,-15px) rotate(-5deg)}}
+.topbar,.hero-inner,.content{position:relative;z-index:1;max-width:1120px;margin:0 auto}.topbar{display:flex;align-items:center;gap:18px;padding:22px 24px}.round{border:0;border-radius:999px;width:48px;height:48px;background:rgba(18,26,36,.74);color:#fff;font-size:26px;cursor:pointer}.logo{height:62px;width:auto;max-width:230px;object-fit:contain;background:var(--ink);padding:7px 12px;border-radius:12px;mix-blend-mode:normal}.top-actions{margin-left:auto;display:flex;gap:10px}.hero-inner{padding:62px 24px 90px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--yellow);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem}.eyebrow:before{content:"";width:28px;height:4px;background:var(--lime);border-radius:9px}.hero h1{font-size:clamp(2.3rem,6vw,5rem);line-height:1;margin:16px 0 12px;max-width:700px;letter-spacing:-.05em}.hero p{font-size:clamp(1rem,2vw,1.35rem);color:#e4edf1;max-width:580px;margin:0}.booking{margin-top:38px;background:rgba(255,255,255,.97);color:var(--ink);border-radius:28px;padding:24px;box-shadow:0 24px 70px rgba(0,0,0,.3);max-width:980px}.booking h2{margin:0 0 18px;font-size:1.45rem}.fields{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end}.field label{display:block;font-size:.72rem;font-weight:800;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin:0 0 7px}.field input,.field select{width:100%;border:1px solid #d8e3e9;border-radius:14px;padding:14px;background:#f8fbfc;color:var(--ink);font:inherit}.btn{border:0;border-radius:14px;padding:14px 18px;font:inherit;font-weight:800;cursor:pointer;transition:transform .2s,filter .2s}.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}.btn-primary{background:var(--lime);color:var(--ink)}.btn-dark{background:var(--ink);color:#fff}.swap{align-self:end;width:42px;height:42px;padding:0;border-radius:50%;background:#eaf8fd;color:#0789c7;font-size:21px}.content{padding:34px 24px 80px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:0 0 18px}.section-head h2{font-size:clamp(1.6rem,3vw,2.4rem);margin:0;letter-spacing:-.04em}.section-head p{margin:0;color:var(--muted)}.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.route{background:#fff;border:1px solid #e0e9ee;border-radius:20px;padding:18px;box-shadow:0 10px 26px rgba(18,26,36,.07)}.route-top{display:flex;justify-content:space-between;gap:12px}.route h3{margin:0;font-size:1.1rem}.fare{color:#0789c7;font-size:1.3rem;font-weight:900}.route p{color:var(--muted);margin:8px 0 16px}.meta{display:flex;justify-content:space-between;align-items:center;font-size:.84rem;color:var(--muted);margin-bottom:14px}.status{color:#20824b;font-weight:800}.feature{margin-top:34px;border-radius:24px;overflow:hidden;background:var(--ink);color:#fff;display:grid;grid-template-columns:1.15fr 1fr}.feature img{width:100%;height:100%;min-height:250px;object-fit:cover}.feature-copy{padding:28px}.feature-copy h2{margin:0 0 10px;font-size:1.7rem}.feature-copy p{color:#d5e0e6;line-height:1.55}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.chip{border:1px solid rgba(149,214,0,.6);color:var(--lime);border-radius:999px;padding:7px 11px;font-size:.82rem}.bottom{background:var(--ink);color:#dce6eb;padding:20px 24px}.bottom-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:15px}.bottom small{color:#a6b5be}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:#fff;padding:13px 18px;border-radius:999px;box-shadow:0 12px 28px rgba(0,0,0,.3);transition:.25s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}.modal-backdrop{position:fixed;inset:0;background:rgba(4,10,15,.62);display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-backdrop.open{display:flex}.modal{background:#fff;border-radius:24px;max-width:480px;width:100%;padding:24px}.modal h2{margin-top:0}.modal .field{margin:12px 0}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:780px){.hero{min-height:680px}.hero-inner{padding-top:40px}.fields{grid-template-columns:1fr 1fr}.fields .swap{grid-column:1/-1;justify-self:center;transform:rotate(90deg)}.fields .btn{grid-column:1/-1}.routes{grid-template-columns:1fr}.feature{grid-template-columns:1fr}.feature img{min-height:190px;max-height:240px}.bottom-inner{align-items:flex-start;flex-direction:column}.logo{height:52px;max-width:190px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero" id="top">
+    <header class="topbar">
+      <button class="round" id="backBtn" aria-label="Back">‹</button>
+      <img class="logo" src="assets/ktvr-logo.png" alt="KTVR Bus Service">
+      <div class="top-actions"><button class="round" id="homeBtn" aria-label="Yami home">⌂</button></div>
+    </header>
+    <div class="hero-inner">
+      <div class="eyebrow">KTVR Bus Service</div>
+      <h1>Go further, together.</h1>
+      <p>Simple, reliable journeys with KTVR buses across Gauteng.</p>
+      <form class="booking" id="bookingForm">
+        <h2>Plan your bus trip</h2>
+        <div class="fields">
+          <div class="field"><label for="from">From</label><select id="from"><option>Tembisa</option><option>Vosloorus</option><option>Kempton Park</option><option>Germiston</option><option>Isando</option><option>Boksburg</option><option>OR Tambo</option></select></div>
+          <button class="swap" type="button" id="swapBtn" aria-label="Swap locations">↕</button>
+          <div class="field"><label for="to">To</label><select id="to"><option>Isando</option><option>OR Tambo</option><option>Boksburg</option><option>Germiston</option><option>Tembisa</option><option>Vosloorus</option><option>Kempton Park</option></select></div>
+          <div class="field"><label for="date">Travel date</label><input id="date" type="date"></div>
+          <div class="field"><label for="passengers">Passengers</label><select id="passengers"><option>1 adult</option><option>2 adults</option><option>3 adults</option><option>Family (4)</option></select></div>
+          <button class="btn btn-primary" type="submit">Find buses</button>
+        </div>
+      </form>
+    </div>
+  </section>
+  <main class="content">
+    <div class="section-head"><div><h2 id="resultsTitle">Popular KTVR routes</h2><p>Demo schedules and fares — no real payment is taken.</p></div><button class="btn btn-dark" id="viewAllBtn">View all</button></div>
+    <div class="routes" id="routes">
+      <article class="route"><div class="route-top"><h3>Tembisa → Isando</h3><span class="fare">R28</span></div><p>Every 30 minutes · KTVR Harambee BRT</p><div class="meta"><span class="status">● 18 seats left</span><span>06:30</span></div><button class="btn btn-primary reserve" data-route="Tembisa to Isando · 06:30">Reserve seat</button></article>
+    </div>
+    <section class="feature"><img src="assets/ktvr-depot.png" alt="KTVR buses at the depot"><div class="feature-copy"><h2>Built for everyday movement</h2><p>Choose a route, check availability, and hold a seat in this interactive Yami demo. KTVR’s lime, cyan, red and yellow livery keeps the experience bright and recognisable.</p><div class="chips"><span class="chip">Accessible buses</span><span class="chip">Live-style schedules</span><span class="chip">Secure demo checkout</span></div></div></section>
+  </main>
+  <footer class="bottom"><div class="bottom-inner"><small>KTVR Bus Service · Powered by Yami</small><button class="btn btn-primary" id="buyBtn">Buy a ticket</button></div></footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal"><h2>Buy your KTVR ticket</h2><p id="modalRoute">Choose a route to continue.</p><div class="field"><label for="name">Passenger name</label><input id="name" type="text" placeholder="e.g. Thando Mokoena"></div><div class="field"><label for="phone">Mobile number</label><input id="phone" type="tel" placeholder=" e.g. 082 123 4567"></div><div class="modal-actions"><button class="btn btn-dark" id="cancelBtn">Cancel</button><button class="btn btn-primary" id="confirmBtn">Confirm demo booking</button></div></div></div>
+<script>
+const $=s=>document.querySelector(s);const toast=(m)=>{const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)};
+const goHome=()=>{
+  if(window.parent!==window) window.parent.postMessage({type:'yami:closeMiniApp'},'*');
+  else window.location.href='/';
+};
+$('#backBtn').onclick=goHome; $('#homeBtn').onclick=goHome;
+$('#swapBtn').onclick=()=>{const a=$('#from').value;$('#from').value=$('#to').value;$('#to').value=a;toast('Route swapped')};
+
+const renderRoutes = (from, to) => {
+  let html = '';
+  const baseFare = Math.floor(Math.random() * 15) + 18;
+  for(let i=0; i<3; i++) {
+    const time = `0${6+i+Math.floor(Math.random()*3)}:${Math.floor(Math.random()*60).toString().padStart(2,'0')}`;
+    const seatsTotal = 65;
+    const seatsLeft = Math.floor(Math.random() * 40);
+    const filled = Math.round((seatsLeft / seatsTotal) * 10);
+    const dots = '●'.repeat(filled) + '○'.repeat(10 - filled);
+    html += `<article class="route">
+      <div class="route-top"><h3>${from} → ${to}</h3><span class="fare">R${baseFare + i*2}</span></div>
+      <p>KTVR Harambee BRT · ${time > '12:00' ? 'Afternoon' : 'Morning'} Service</p>
+      <div class="meta" style="flex-direction:column; align-items:flex-start; gap:6px;">
+        <div style="display:flex; justify-content:space-between; width:100%;">
+          <span class="status" style="color:${seatsLeft < 10 ? 'var(--red)' : '#20824b'}">🚌 ${seatsLeft} seats left</span>
+          <span>${time}</span>
+        </div>
+        <div style="font-size:11px; letter-spacing:2px; color:var(--lime); background:var(--ink); padding:4px 8px; border-radius:6px; display:inline-block">${dots}</div>
+      </div>
+      <button class="btn btn-primary reserve" data-route="${from} to ${to} · ${time}" style="width:100%; margin-top:12px">Reserve seat</button>
+    </article>`;
+  }
+  $('#routes').innerHTML = html;
+  document.querySelectorAll('.reserve').forEach(b=>b.onclick=()=>openModal(b.dataset.route));
+};
+
+$('#bookingForm').onsubmit=e=>{
+  e.preventDefault();
+  const f = $('#from').value;
+  const t = $('#to').value;
+  $('#resultsTitle').textContent=`Buses from ${f} to ${t}`;
+  renderRoutes(f, t);
+  document.querySelector('#routes').scrollIntoView({behavior:'smooth',block:'start'});
+  toast('Showing available KTVR buses')
+};
+
+$('#viewAllBtn').onclick=()=>{$('#bookingForm').scrollIntoView({behavior:'smooth',block:'center'});toast('Choose your route above')};
+const backdrop=$('#modalBackdrop');const openModal=(route)=>{if(route)$('#modalRoute').textContent=route;backdrop.classList.add('open');$('#name').focus()};document.querySelectorAll('.reserve').forEach(b=>b.onclick=()=>openModal(b.dataset.route));$('#buyBtn').onclick=()=>openModal();$('#cancelBtn').onclick=()=>backdrop.classList.remove('open');backdrop.onclick=e=>{if(e.target===backdrop)backdrop.classList.remove('open')};
+$('#confirmBtn').onclick=()=>{if(!$('#name').value.trim()||!$('#phone').value.trim()){toast('Please enter your name and mobile number');return}backdrop.classList.remove('open');toast('Demo booking confirmed — no money was charged')};
+const d=new Date();d.setDate(d.getDate()+1);$('#date').value=d.toISOString().slice(0,10);
+</script>
+</body>
+</html>
