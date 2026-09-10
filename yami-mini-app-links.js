@@ -116,10 +116,23 @@
       const style = document.createElement('style');
       style.id = 'yami-dashboard-sync-style';
       style.textContent = `
-        body::before { content: "Y A M I   Y A M I   Y A M I   Y A M I"; position: fixed; top: 40%; left: 0; white-space: nowrap; font-size: 28vw; font-weight: 900; font-family: -apple-system, sans-serif; color: rgba(255,103,29,0.04); z-index: -1; pointer-events: none; animation: yami-marquee 25s linear infinite; }
-        @keyframes yami-marquee { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-30%); } }
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
+        html:has(.yami-sync-card) { background-color: #000000 !important; --background: #000000 !important; }
+        body:has(.yami-sync-card), ion-app:has(.yami-sync-card), ion-router-outlet:has(.yami-sync-card), .ion-page:has(.yami-sync-card) { background-color: transparent !important; --background: transparent !important; background-image: none !important; }
+        html:has(.yami-sync-card) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.95)), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=1000') !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; }
+        ion-content:has(.yami-sync-card) { --background: transparent !important; background: transparent !important; background-image: none !important; }
+        ion-content:has(.yami-sync-card)::part(background) { background: transparent !important; background-image: none !important; }
         
-        ion-card.yami-sync-card{--background:#fff!important;margin:18px 16px 0!important;border-radius:20px!important;background:linear-gradient(145deg,#fff,#f8fafc)!important;box-shadow:0 8px 22px rgba(5,31,48,.16)!important;overflow:hidden!important}ion-card.yami-sync-card ion-card-header,ion-card.yami-sync-card ion-card-content{background:transparent!important}ion-card.yami-sync-card ion-card-header{padding:18px 18px 6px!important}ion-card.yami-sync-card ion-card-subtitle,.yami-quick-title{color:#fff!important;text-shadow:0 2px 4px rgba(0,0,0,0.5);font:800 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;text-transform:none!important;letter-spacing:0!important}.yami-quick-title{padding:18px 18px 11px}.top-card-content.yami-sync-card{min-height:0!important;padding:0!important;background:transparent!important;box-shadow:none!important;margin-bottom:10px!important}.top-card-content.yami-sync-card ion-grid{padding:0!important}.top-card-content.yami-sync-card ion-col{padding:7px 2px!important}.top-card-content.yami-sync-card ion-label{min-height:24px!important}ion-card.yami-sync-card ion-card-content{padding:6px 10px 13px!important}
+        #yami-watermarks { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; display: none; }
+        html:has(.yami-sync-card) #yami-watermarks { display: block; }
+        .yami-wm-row { position: absolute; white-space: nowrap; font-size: 20vw; font-weight: 900; font-family: -apple-system, sans-serif; color: rgba(255,255,255,0.06); }
+        .yami-wm-left { left: 0; animation: ym-left linear infinite; }
+        .yami-wm-right { left: -50%; animation: ym-right linear infinite; }
+        
+        @keyframes ym-left { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-30%); } }
+        @keyframes ym-right { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(30%); } }
+        
+        ion-card.yami-sync-card{position:relative!important;z-index:10!important;--background:#fff!important;margin:18px 16px 0!important;border-radius:20px!important;background:linear-gradient(145deg,#fff,#f8fafc)!important;box-shadow:0 8px 22px rgba(5,31,48,.16)!important;overflow:hidden!important}ion-card.yami-sync-card ion-card-header,ion-card.yami-sync-card ion-card-content{background:transparent!important}ion-card.yami-sync-card ion-card-header{padding:18px 18px 6px!important}ion-card.yami-sync-card ion-card-subtitle,.yami-quick-title{color:#fff!important;text-shadow:none!important;font:800 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;text-transform:none!important;letter-spacing:0!important}.yami-quick-title{padding:18px 18px 11px}.top-card-content.yami-sync-card{min-height:0!important;padding:0!important;background:transparent!important;box-shadow:none!important;margin-bottom:10px!important}.top-card-content.yami-sync-card ion-grid{padding:0!important}.top-card-content.yami-sync-card ion-col{padding:7px 2px!important}.top-card-content.yami-sync-card ion-label{min-height:24px!important}ion-card.yami-sync-card ion-card-content{padding:6px 10px 13px!important}
         
         /* Quick Actions Grid layout */
         ion-card.top-card-content ion-grid{padding:5px 2px!important}ion-card.top-card-content ion-col{padding:7px 2px!important}
@@ -132,20 +145,35 @@
         ion-card.bills-wrapper ion-col:active { transform: scale(0.96); }
         
         ion-card.bills-wrapper button { flex: 1!important; display:flex; flex-direction:column; justify-content: flex-end; align-items: flex-start; padding: 20px!important; margin:0!important; width:100%; min-width:0!important; background-color:transparent!important; color:#fff!important; box-shadow:none!important; text-transform:none!important; background-size: cover!important; background-position: right center!important; }
+        ion-card.bills-wrapper button[data-yami-service="Recharge"], ion-card.bills-wrapper button[data-yami-service="Vodacom"] { background-size: contain !important; background-position: center !important; background-repeat: no-repeat !important; background-color: #111 !important; }
         
         ion-card.bills-wrapper ion-label { padding: 0!important; margin: 0!important; font: 800 18px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important; text-align: left!important; width: 100%!important; color: #fff!important; text-shadow: 0 2px 5px rgba(0,0,0,0.8); z-index: 2; position: relative; }
         
         .yami-water-icon{display:none} 
-        .yami-money-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 14px}.yami-money-action{display:flex!important;min-height:100px!important;align-items:flex-start;justify-content:flex-end;flex-direction:column;border:0!important;border-radius:20px!important;padding:12px!important;color:#fff!important;cursor:pointer;transition:transform .18s ease!important;background-size:cover!important;background-position:center!important;box-shadow:0 8px 16px rgba(0,0,0,0.2)!important}.yami-money-action:active{transform:scale(.96)}.yami-money-icon{display:grid;place-items:center;width:34px;height:34px;margin-bottom:auto;border-radius:50%;background:#fff;color:#ff671d;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;z-index:2;}.yami-money-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.yami-money-action span:last-child{font:800 13px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;text-align:left;white-space:normal;position:relative;z-index:2;text-shadow:0 2px 4px rgba(0,0,0,0.8)}.card-wrapper.yami-sync-card{padding:10px 0!important;background:linear-gradient(135deg,#ff671d 0%,#ff3d00 100%)!important;border-radius:24px!important;box-shadow:0 12px 30px rgba(255,103,29,0.3)!important;border:none!important;color:#fff!important}.card-wrapper.yami-sync-card .account-balance{--background:transparent!important;--padding-start:14px!important;--inner-padding-end:14px!important;background:transparent!important}.card-wrapper.yami-sync-card .balance-grid{display:grid!important;grid-template-columns:60px minmax(0,1fr) auto!important;align-items:center!important;width:100%!important}.card-wrapper.yami-sync-card .grid-col h5{margin:0!important;color:rgba(255,255,255,0.9)!important;font:600 16px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;text-transform:uppercase;letter-spacing:1px}.card-wrapper.yami-sync-card .grid-col.last{display:block!important;visibility:visible!important;white-space:nowrap!important;color:#fff!important;font:800 26px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;text-align:right!important;text-shadow:0 2px 4px rgba(0,0,0,0.2)}.yami-logo-mark{display:flex;flex-direction:column;align-items:center;justify-content:center;width:54px;height:54px;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:900;line-height:1}.yami-logo-mark span{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:rgba(255,255,255,0.2);color:#fff;font-size:26px;font-style:italic;box-shadow:0 4px 10px rgba(0,0,0,0.1)}.yami-logo-mark small{display:none}.adverts-wrapper.yami-sync-card{display:none!important}
+        .yami-money-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 14px}.yami-money-action{display:flex!important;min-height:100px!important;align-items:flex-start;justify-content:flex-end;flex-direction:column;border:0!important;border-radius:20px!important;padding:12px!important;color:#fff!important;cursor:pointer;transition:transform .18s ease!important;background-size:cover!important;background-position:center!important;box-shadow:0 8px 16px rgba(0,0,0,0.2)!important}.yami-money-action:active{transform:scale(.96)}.yami-money-icon{display:grid;place-items:center;width:34px;height:34px;margin-bottom:auto;border-radius:50%;background:#fff;color:#ff671d;box-shadow:0 4px 10px rgba(0,0,0,0.3);position:relative;z-index:2;}.yami-money-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.yami-money-action span:last-child{font:800 13px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;text-align:left;white-space:normal;position:relative;z-index:2;text-shadow:0 2px 4px rgba(0,0,0,0.8)}.card-wrapper.yami-sync-card{padding:12px 0!important;background:linear-gradient(145deg,#1c1c1e 0%,#000000 100%)!important;border:1px solid rgba(255,103,29,0.4)!important;border-radius:24px!important;box-shadow:0 12px 30px rgba(255,103,29,0.15),inset 0 1px 1px rgba(255,255,255,0.1)!important;color:#fff!important}.card-wrapper.yami-sync-card .account-balance{--background:transparent!important;--padding-start:16px!important;--inner-padding-end:0!important;--padding-end:16px!important;background:transparent!important}.card-wrapper.yami-sync-card .balance-grid{display:grid!important;grid-template-columns:60px auto 1fr!important;align-items:center!important;width:100%!important}.card-wrapper.yami-sync-card .grid-col h5{margin:0!important;color:rgba(255,255,255,0.6)!important;font:600 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;text-transform:uppercase;letter-spacing:1px}.card-wrapper.yami-sync-card .grid-col.last{display:block!important;visibility:visible!important;white-space:nowrap!important;color:#fff!important;font:700 24px 'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif!important;text-align:right!important;text-shadow:0 2px 4px rgba(0,0,0,0.4);letter-spacing: 1px}.yami-logo-mark{display:flex;flex-direction:column;align-items:center;justify-content:center;width:54px;height:54px;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-weight:900;line-height:1}.yami-logo-mark span{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#ff671d 0%,#ff3d00 100%);color:#fff;font-size:14px;font-style:italic;letter-spacing:1px;box-shadow:0 4px 10px rgba(255,103,29,0.3)}.yami-logo-mark small{display:none}.adverts-wrapper.yami-sync-card{display:none!important}
       `;
       style.textContent += '.yami-money-icon{background:#263340!important;color:#f5cc38!important;border:1px solid #364554!important;box-shadow:0 5px 12px rgba(7,18,28,.18)!important}.yami-money-icon svg{width:24px!important;height:24px!important;stroke-width:1.9!important}';
       style.textContent += '.yami-service-icon{position:relative!important; margin-bottom:10px!important; display:grid!important;place-items:center!important;width:42px!important;height:42px!important;border-radius:50%!important;background:#fff!important;color:#ff671d!important;box-shadow:0 4px 14px rgba(0,0,0,.3)!important; z-index:2;}.yami-service-icon svg{width:22px!important;height:22px!important;fill:none!important;stroke:currentColor!important;stroke-width:2!important;stroke-linecap:round!important;stroke-linejoin:round!important}';
       document.head.appendChild(style);
+      if (!document.getElementById('yami-watermarks')) {
+        const wm = document.createElement('div');
+        wm.id = 'yami-watermarks';
+        wm.innerHTML = `
+          <div class="yami-wm-row yami-wm-left" style="top: 15%; animation-duration: 30s;">Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I</div>
+          <div class="yami-wm-row yami-wm-right" style="top: 35%; animation-duration: 35s;">Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I</div>
+          <div class="yami-wm-row yami-wm-left" style="top: 55%; animation-duration: 25s;">Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I</div>
+          <div class="yami-wm-row yami-wm-right" style="top: 75%; animation-duration: 28s;">Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I</div>
+          <div class="yami-wm-row yami-wm-left" style="top: 95%; animation-duration: 32s;">Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I &nbsp;&nbsp;&nbsp; Y A M I</div>
+        `;
+        document.body.appendChild(wm);
+      }
     }
     document.querySelectorAll('ion-card.card-wrapper,ion-card.top-card-content,ion-card.bills-wrapper,ion-card.adverts-wrapper').forEach(card => card.classList.add('yami-sync-card'));
     const balanceCard = document.querySelector('ion-card.card-wrapper');
     const logo = balanceCard?.querySelector('ion-img');
-    if (logo && !balanceCard.querySelector('.yami-logo-mark')) logo.replaceWith(Object.assign(document.createElement('div'), { className: 'yami-logo-mark', innerHTML: '<span>Y</span><small>Yami</small>' }));
+    if (logo && !balanceCard.querySelector('.yami-logo-mark')) logo.replaceWith(Object.assign(document.createElement('div'), { className: 'yami-logo-mark', innerHTML: '<span>YAMI</span><small>Yami</small>' }));
+    const balanceLabel = balanceCard?.querySelector('h5');
+    if (balanceLabel && balanceLabel.textContent.trim().toUpperCase() === 'YAMI BALANCE') balanceLabel.textContent = 'BALANCE';
     const balanceValue = balanceCard?.querySelector('.grid-col.last');
     if (balanceValue) {
       const stored = Number.parseFloat(localStorage.getItem('yami.demo.wallet.balance.v1') || '');
@@ -198,14 +226,14 @@
     const bgImages = {
       Train: 'train_bg.png',
       Flights: 'flight_bg.png',
-      Bus: 'bus_bg.png',
+      Bus: 'bus_bg_user.png',
       Water: 'water_bg.png',
       Electricity: 'electricity_bg.png',
       DSTV: 'dstv_bg.png',
-      Recharge: 'recharge_bg.png',
-      More: 'more_bg.png',
-      Food: 'more_bg.png',
-      Vodacom: 'recharge_bg.png'
+      Recharge: 'recharge_bg_v3.png',
+      More: 'more_bg_v4.png',
+      Food: 'more_bg_v4.png',
+      Vodacom: 'recharge_bg_v3.png'
     };
     if(bgImages[key]) tile.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/${bgImages[key]}?v=${Date.now()}')`;
 
