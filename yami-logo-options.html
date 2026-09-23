@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Yami logo directions</title>
+    <style>
+      :root { --ink:#17394d; --orange:#ff671d; --paper:#f4f7f8; --line:#d9e4e8; }
+      * { box-sizing:border-box; }
+      body { margin:0; background:var(--paper); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+      main { width:min(100%,1160px); margin:auto; padding:28px 20px 40px; }
+      .intro { display:flex; align-items:end; justify-content:space-between; gap:22px; padding:27px 30px; border-radius:26px; background:linear-gradient(135deg,#153b52,#245f79); color:#fff; box-shadow:0 14px 34px #17394d28; }
+      .eyebrow { margin:0 0 7px; color:#ffc9a8; font-size:11px; font-weight:850; letter-spacing:1.5px; }
+      h1 { margin:0; font-size:clamp(27px,4vw,39px); letter-spacing:-1.2px; }
+      .intro p:last-child { max-width:330px; margin:0; color:#d8e9ef; font-size:14px; line-height:1.45; }
+      .options { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:14px; margin-top:20px; }
+      .logo-option { min-height:190px; padding:18px 12px 14px; border:1px solid var(--line); border-radius:22px; background:#fff; color:var(--ink); box-shadow:0 6px 17px #17394d0d; cursor:pointer; text-align:center; transition:.18s ease; }
+      .logo-option:hover,.logo-option:focus-visible,.logo-option.selected { border-color:var(--orange); box-shadow:0 12px 24px #ff671d23; outline:0; transform:translateY(-2px); }
+      .logo-option svg { width:82px; height:82px; display:block; margin:0 auto 12px; }
+      .number { display:inline-grid; width:22px; height:22px; place-items:center; margin-right:5px; border-radius:50%; background:#fff0e8; color:var(--orange); font-size:11px; font-weight:850; vertical-align:middle; }
+      .logo-option strong { font-size:15px; letter-spacing:-.35px; }
+      .logo-option small { display:block; margin-top:5px; color:#718793; font-size:11px; }
+      #choice { min-height:20px; margin:18px 0 0; color:#4e6d7c; text-align:center; font-size:14px; font-weight:700; }
+      @media (max-width:860px) { .options { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+      @media (max-width:560px) { main { padding:16px 14px 30px; } .intro { display:block; padding:23px; } .intro p:last-child { margin-top:11px; } .options { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } .logo-option { min-height:176px; padding:15px 8px 12px; } .logo-option svg { width:73px; height:73px; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">YAMI BRAND EXPLORATION</p><h1>Choose a direction</h1></div>
+        <p>Ten original marks with distinct personalities. Tap one to highlight it, then tell me its number.</p>
+      </section>
+
+      <section class="options" aria-label="Yami logo options">
+        <button class="logo-option" type="button" data-choice="1">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#17394d"/><circle cx="72" cy="23" r="7" fill="#ffcf58"/><path d="m26 28 22 23 22-23M48 51v20" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="9"/><path d="M23 70c14 7 36 7 50 0" fill="none" stroke="#ff7a36" stroke-linecap="round" stroke-width="5"/></svg>
+          <strong><span class="number">1</span>Horizon</strong><small>Confident & warm</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="2">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#ff671d"/><path d="m22 24 26 27 26-27-8 35H52V75H44V59H30Z" fill="#fff7e9"/><path d="m48 51 26-27-8 35H52Z" fill="#ffbc7a"/><circle cx="76" cy="19" r="4" fill="#fff7e9"/></svg>
+          <strong><span class="number">2</span>Fold</strong><small>Bold & modern</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="3">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="44" fill="#0d6f73"/><circle cx="48" cy="48" r="32" fill="none" stroke="#aee1d5" stroke-width="2"/><circle cx="74" cy="35" r="6" fill="#ffcc55"/><path d="m29 28 19 21 19-21M48 49v20" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="9"/></svg>
+          <strong><span class="number">3</span>Orbit</strong><small>Connected & smart</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="4">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#fff3de"/><path d="m27 27 21 22 21-22M48 49v22" fill="none" stroke="#17394d" stroke-linecap="round" stroke-linejoin="round" stroke-width="9"/><circle cx="24" cy="26" r="6" fill="#ff671d"/><circle cx="73" cy="25" r="6" fill="#f4bf3c"/><circle cx="48" cy="75" r="6" fill="#ff671d"/></svg>
+          <strong><span class="number">4</span>Spark</strong><small>Friendly & energetic</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="5">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#1b3854"/><g stroke="#fbc95a" stroke-linecap="round" stroke-width="3"><path d="M48 13v9M27 19l6 7M69 19l-6 7M18 39l9 2M78 39l-9 2"/></g><path d="m27 33 21 21 21-21M48 54v20" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="9"/></svg>
+          <strong><span class="number">5</span>Sunline</strong><small>Optimistic & clear</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="6">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#f6b64c"/><path d="m25 27 23 23 23-23M48 50v21" fill="none" stroke="#fff8e7" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/><path d="M20 25c4-5 10-5 13-1 3 4 0 9-5 9-5 0-9-4-8-8ZM60 18c5-2 10 0 11 4 1 5-4 8-8 6-4-2-5-7-3-10ZM67 59c5-1 9 3 7 8-2 4-8 4-10 0-2-3-1-6 3-8ZM20 66c4-3 9-1 10 3 1 5-4 8-8 6-4-2-5-6-2-9Z" fill="#8d4e23"/></svg>
+          <strong><span class="number">6</span>Savanna</strong><small>Playful & rooted</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="7">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="44" fill="#334c91"/><path d="m24 25 24 25 24-25" fill="none" stroke="#fc7c42" stroke-linecap="round" stroke-linejoin="round" stroke-width="11"/><path d="M48 50v22" stroke="#fc7c42" stroke-linecap="round" stroke-width="11"/><path d="M29 70c11 6 27 6 38 0" fill="none" stroke="#d8ecff" stroke-linecap="round" stroke-width="3"/></svg>
+          <strong><span class="number">7</span>Pulse</strong><small>Digital & vibrant</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="8">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#fff"/><path d="m24 25 24 25 24-25" fill="none" stroke="#f0692c" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/><path d="M48 50v23" stroke="#0a7674" stroke-linecap="round" stroke-width="10"/><path d="M27 29 42 44M69 29 54 44M48 53v17" fill="none" stroke="#f4be42" stroke-linecap="round" stroke-width="3"/><rect x="4" y="4" width="88" height="88" rx="29" fill="none" stroke="#d8e5e8" stroke-width="2"/></svg>
+          <strong><span class="number">8</span>Weave</strong><small>Human & balanced</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="9">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#053f58"/><path d="M19 35c10-11 18-11 29 0 11-11 19-11 29 0" fill="none" stroke="#8ad5d2" stroke-linecap="round" stroke-width="8"/><path d="m28 30 20 22 20-22M48 52v19" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/><circle cx="72" cy="70" r="6" fill="#ff7a36"/></svg>
+          <strong><span class="number">9</span>Flow</strong><small>Calm & capable</small>
+        </button>
+        <button class="logo-option" type="button" data-choice="10">
+          <svg viewBox="0 0 96 96" aria-hidden="true"><rect x="4" y="4" width="88" height="88" rx="29" fill="#126b67"/><circle cx="24" cy="27" r="8" fill="#f6d35f"/><circle cx="72" cy="27" r="8" fill="#f6d35f"/><circle cx="48" cy="70" r="8" fill="#f6d35f"/><path d="M24 27 48 50 72 27M48 50v20" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/></svg>
+          <strong><span class="number">10</span>Link</strong><small>Payments & people</small>
+        </button>
+      </section>
+      <p id="choice">Tap an option, then send me its number.</p>
+    </main>
+    <script>
+      const options = document.querySelectorAll('.logo-option');
+      const choice = document.querySelector('#choice');
+      options.forEach((option) => option.addEventListener('click', () => {
+        options.forEach((item) => item.classList.remove('selected'));
+        option.classList.add('selected');
+        choice.textContent = `Option ${option.dataset.choice} selected — tell me and I’ll apply it across Yami.`;
+      }));
+    </script>
+  </body>
+</html>
