@@ -161,8 +161,8 @@
 
 .dashboard-header {
   background-image: linear-gradient(180deg, #063d4370, #063b41dc), url('assets/ekurhuleni-bus-hero.png');
-  background-position: center, 76% center;
+  background-position: center, center;
   background-repeat: no-repeat;
-  background-size: 100% 100%, 74% auto;
+  background-size: 100% 100%, contain;
   background-color: #0b5960;
 }
