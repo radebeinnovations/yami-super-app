@@ -25,3 +25,14 @@
 .bottom-nav button {
   width: 64px;
 }
+
+.top-actions {
+  display: flex;
+  gap: 9px;
+}
+
+.icon-button--scan {
+  border-color: #ffd7c0;
+  background: #fff6f0;
+  color: var(--orange);
+}
