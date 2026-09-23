@@ -12,11 +12,6 @@
   color: #dcf079;
 }
 
-.service-icon--bus {
-  background: #e4f4e6;
-  color: #16745b;
-}
-
 .bottom-nav {
   justify-content: space-around;
   gap: 0;
@@ -51,6 +46,55 @@
   background: #fff;
   box-shadow: 0 6px 15px rgba(23, 57, 77, .055);
   font-weight: 800;
+}
+
+/* Keep every Explore your hub icon in the same soft blue family. */
+.service-grid .service-icon,
+.service-grid .service-icon--warm,
+.service-grid .service-icon--bus {
+  background: #eaf3f6;
+  color: var(--navy);
+}
+
+/* These image panels are paid-partner placements, not decorative artwork. */
+.feature--ad {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.feature--ad:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 28px #17394d2f;
+}
+
+.feature--ad:focus-visible {
+  outline: 3px solid #ff671d;
+  outline-offset: 3px;
+}
+
+.feature--ad .ad-label {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #ffffff26;
+  color: #fff2ea;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.feature--ad .ad-cta {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #ffffffea;
+  color: var(--navy);
+  font-size: 10px;
+  font-weight: 850;
 }
 
 .bottom-nav {
