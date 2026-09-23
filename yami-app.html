@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#17394d">
+    <title>Yami</title>
+    <link rel="stylesheet" href="yami-app.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand"><img src="assets/images/logo/ic_logo.png" alt="Yami"><span>Yami</span></div>
+        <button class="icon-button" type="button" data-open="yami-account.html" data-name="Account" aria-label="Open account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><path d="M4.7 20c.8-3.2 3.4-5 7.3-5s6.5 1.8 7.3 5"></path></svg></button>
+      </header>
+
+      <section class="welcome"><p>GOOD MORNING</p><h1>Everything you need, in one place.</h1><span>Pay, travel, shop and manage life with one wallet.</span></section>
+
+      <section class="balance-card" aria-label="Yami wallet balance"><div><p>Yami balance</p><strong id="wallet-balance">R10,057.00</strong><span>Available to spend</span></div><img src="assets/images/logo/ic_logo_splash.png" alt="" aria-hidden="true"></section>
+
+      <section class="quick-actions" aria-label="Quick actions">
+        <button type="button" data-open="yami-money.html?flow=send" data-name="Send money"><span class="quick-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-8-8 18-2-7-8-3Z"></path><path d="m11 14 4-4"></path></svg></span><span>Send money</span></button>
+        <button type="button" data-open="yami-money.html?flow=request" data-name="Request money"><span class="quick-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 20h14"></path></svg></span><span>Request money</span></button>
+        <button type="button" data-open="yami-money.html?flow=withdraw" data-name="Withdraw"><span class="quick-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="14" height="12" rx="2"></rect><path d="M6 10h8"></path><path d="M19 4v12"></path><path d="m16 13 3 3 3-3"></path></svg></span><span>Withdraw</span></button>
+        <button type="button" data-open="yami-money.html?flow=deposit" data-name="Deposit"><span class="quick-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v11H4z"></path><path d="M7 12h5"></path><path d="m14 5 3-3 3 3"></path><path d="M17 2v10"></path></svg></span><span>Deposit</span></button>
+      </section>
+
+      <section class="feature feature--recharge"><div><span>STAY CONNECTED</span><h2>Mobile, data and more.</h2><p>Recharge, buy bundles and pay your bills from one place.</p></div></section>
+
+      <section class="section-heading"><div><p>SERVICES</p><h2>Explore your hub</h2></div><button type="button" data-open="yami-services.html" data-name="All services">View all</button></section>
+      <section class="service-grid" aria-label="Services">
+        <button type="button" data-open="yami-electricity.html" data-name="Electricity"><span class="service-icon service-icon--warm">ϟ</span><span>Electricity</span></button>
+        <button type="button" data-open="yami-water.html" data-name="Water"><span class="service-icon">◒</span><span>Water</span></button>
+        <button type="button" data-open="prasa.html" data-name="Train travel"><span class="service-icon">▣</span><span>Train travel</span></button>
+        <button type="button" data-open="quickbus.html" data-name="Bus travel"><span class="service-icon">▤</span><span>Bus travel</span></button>
+        <button type="button" data-open="flights.html" data-name="Flights"><span class="service-icon">⌁</span><span>Flights</span></button>
+        <button type="button" data-open="food.html" data-name="Food"><span class="service-icon service-icon--warm">⌂</span><span>Food</span></button>
+        <button type="button" data-open="dstv.html" data-name="Entertainment"><span class="service-icon">▻</span><span>Entertainment</span></button>
+        <button type="button" data-open="yami-finance.html" data-name="Finance"><span class="service-icon">◫</span><span>Finance</span></button>
+      </section>
+
+      <section class="feature feature--more"><div><span>DISCOVER MORE</span><h2>Services for every day.</h2><p>Explore more options for your money and your life.</p></div></section>
+      <p class="demo-notice"><b>Demo environment.</b> Balances, purchases and bookings are simulated locally. No real money moves.</p>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <button class="is-active" type="button" data-home><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"></path></svg><span>Home</span></button>
+      <button type="button" data-open="yami-history.html" data-name="History"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v5h5"></path><path d="M5.4 15.5A8 8 0 1 0 4 9"></path><path d="M12 7v5l3 2"></path></svg><span>History</span></button>
+      <button type="button" data-open="yami-services.html" data-name="Services"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg><span>Services</span></button>
+      <button type="button" data-open="yami-account.html" data-name="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><path d="M4.7 20c.8-3.2 3.4-5 7.3-5s6.5 1.8 7.3 5"></path></svg><span>Account</span></button>
+    </nav>
+
+    <section class="mini-app" id="mini-app" aria-hidden="true"><div class="mini-app__bar"><div><img src="assets/images/logo/ic_logo.png" alt="Yami"><span id="mini-title">Service</span></div><button type="button" id="close-mini-app" aria-label="Close service">×</button></div><iframe id="mini-frame" title="Yami service"></iframe></section>
+    <script src="yami-wallet.js?v=1"></script>
+    <script src="yami-app.js"></script>
+  </body>
+</html>
