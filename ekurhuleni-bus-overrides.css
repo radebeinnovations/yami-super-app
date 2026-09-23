@@ -1,0 +1,3 @@
+.dashboard-header::after {
+  content: 'Your city,\A one tap away.';
+}

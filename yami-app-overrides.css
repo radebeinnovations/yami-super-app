@@ -1,0 +1,27 @@
+/* Ekurhuleni Bus focus for the Yami hub. */
+.feature--more {
+  min-height: 190px;
+  background-image: url('assets/ekurhuleni-bus-hero.png');
+}
+
+.feature--more::before {
+  background: linear-gradient(180deg, #034b5550, #063c45df);
+}
+
+.feature--more span {
+  color: #dcf079;
+}
+
+.service-icon--bus {
+  background: #e4f4e6;
+  color: #16745b;
+}
+
+.bottom-nav {
+  justify-content: space-around;
+  gap: 0;
+}
+
+.bottom-nav button {
+  width: 64px;
+}
