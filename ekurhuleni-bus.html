@@ -81,7 +81,7 @@ const TAG_DEFAULT = 'EMB-7741-K';
 const SUPPORT_NUMBER = '011 999 0000';
 console.log('[Ekurhuleni MetroBus] Mini-app script starting...');
 const getYamiBalance = () => { try { const ls = window.parent?.localStorage?.getItem('yami.demo.wallet.balance.v1'); const parsed = ls ? Number.parseFloat(ls) : null; const val = window.parent?.YamiWallet?.get?.() ?? parsed; return (val !== null && !Number.isNaN(val)) ? val : null; } catch(e){return null;} };
-let state = { screen:'login', tab:'home', modal:null, balance: getYamiBalance()??245.50, topUpAmount:100 };
+let state = { screen:'app', tab:'home', modal:null, balance: getYamiBalance()??245.50, topUpAmount:100 };
 let serviceMode = 'airtime';
 let phoneTagEnabled = true;
 const money = n => `R ${n.toFixed(2)}`;

@@ -31,7 +31,7 @@ const getYamiBalance = () => {
     return stored !== null && Number.isFinite(stored) ? stored : null;
   } catch { return null; }
 };
-let state = { screen: 'login', tab: 'home', modal: null, balance: getYamiBalance() ?? 245.50, topUpAmount: 100 };
+let state = { screen: 'app', tab: 'home', modal: null, balance: getYamiBalance() ?? 245.50, topUpAmount: 100 };
 let serviceMode = 'airtime';
 let phoneTagEnabled = true;
 const money = n => `R ${n.toFixed(2)}`;
