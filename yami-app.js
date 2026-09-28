@@ -12,11 +12,30 @@
     if (!doc.querySelector('script[src*="yami-wallet.js"]')) { const wallet = doc.createElement('script'); wallet.src = '/yami-wallet.js?v=1'; doc.body.appendChild(wallet); }
     if (!doc.querySelector('script[src*="yami-shell.js"]')) { const shell = doc.createElement('script'); shell.src = '/yami-shell.js?v=1'; doc.body.appendChild(shell); }
   };
-  const openMiniApp = (destination, name) => { title.textContent = name || 'Service'; frame.title = `Yami ${name || 'service'}`; frame.src = destination === 'ekurhuleni-bus.html' ? `${destination}?v=metrobus-10` : destination; modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
+  const miniDestinations = new Set([
+    'ekurhuleni-bus.html', 'metrobus.html', 'yami-bus-selector.html', 'yami-account.html', 'yami-airtime-data.html',
+    'yami-electricity.html', 'yami-finance.html', 'yami-history.html', 'yami-money.html', 'yami-scan-pay.html',
+    'yami-services.html', 'yami-water.html', 'flights.html', 'prasa.html'
+  ]);
+  const openMiniApp = (destination, name) => {
+    const parsed = new URL(destination, window.location.href);
+    const localDestination = parsed.origin === window.location.origin && miniDestinations.has(parsed.pathname.split('/').pop());
+    if (!localDestination) return;
+    title.textContent = name || 'Service';
+    frame.title = `Yami ${name || 'service'}`;
+    frame.src = destination === 'ekurhuleni-bus.html' ? `${destination}?v=metrobus-10` : destination;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
   document.querySelectorAll('[data-open]').forEach((button) => button.addEventListener('click', () => openMiniApp(button.dataset.open, button.dataset.name)));
   document.getElementById('close-mini-app').addEventListener('click', closeMiniApp);
   frame.addEventListener('load', () => window.setTimeout(configureFrame, 30));
-  window.addEventListener('message', (event) => { if (event.data?.type === 'yami:closeMiniApp') closeMiniApp(); });
+  window.addEventListener('message', (event) => {
+    if (event.origin !== window.location.origin) return;
+    if (event.data?.type === 'yami:closeMiniApp') closeMiniApp();
+    if (event.data?.type === 'yami:openMiniApp') openMiniApp(event.data.destination, event.data.name);
+  });
   window.addEventListener('yami:wallet-changed', refreshBalance);
   window.addEventListener('storage', (event) => { if (event.key === 'yami.demo.wallet.balance.v1') refreshBalance(); });
   document.querySelector('[data-home]').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
