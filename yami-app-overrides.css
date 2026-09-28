@@ -138,6 +138,11 @@
   background: #fff;
 }
 
+/* Give the second sponsored placement breathing room below the service tiles. */
+.ad-slot[data-ad-slot="1"] {
+  margin-top: 34px;
+}
+
 @media (max-width: 410px) {
   .feature--ad h2 { max-width: 58%; font-size: 17px; }
   .feature--ad p { display: none; }
