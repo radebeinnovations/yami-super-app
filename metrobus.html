@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#000b36">
+    <meta name="description" content="MetroBus Wallet in Yami">
+    <base href="https://metro-bus-app.vercel.app/">
+    <title>MetroBus Wallet | Yami</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://metro-bus-app.vercel.app/styles.css">
+    <style>
+      /* Yami provides the sign-in, so the MetroBus wallet starts in its app state. */
+      body { background:#e9ecf3; }
+      .yami-sso-note { position:fixed; z-index:10; right:16px; bottom:16px; max-width:235px; padding:9px 12px; border-radius:12px; color:#29405f; background:#ffffffea; box-shadow:0 8px 22px #0b1f5c22; font:600 11px/1.35 Inter,system-ui,sans-serif; opacity:0; pointer-events:none; transition:opacity .2s ease; }
+      .yami-sso-note.is-visible { opacity:1; }
+      @media (max-width:480px) { .app-shell { padding:0; } .phone { width:100%; height:100dvh; box-shadow:none; } }
+    </style>
+  </head>
+  <body>
+    <main class="app-shell" aria-label="MetroBus Wallet">
+      <section id="app" class="phone" aria-live="polite"></section>
+    </main>
+    <p class="yami-sso-note" role="status" aria-live="polite">Signed in through Yami</p>
+    <script src="https://metro-bus-app.vercel.app/app.js"></script>
+    <script>
+      (() => {
+        const app = document.getElementById('app');
+        const notice = document.querySelector('.yami-sso-note');
+        let bypassing = false;
+        const showNotice = () => {
+          notice.classList.add('is-visible');
+          window.setTimeout(() => notice.classList.remove('is-visible'), 2600);
+        };
+        const continueToWallet = () => {
+          if (bypassing || !app.querySelector('.auth-page')) return;
+          bypassing = true;
+          const createAccount = app.querySelector('[data-action="onboard"]');
+          if (!createAccount) { bypassing = false; return; }
+          createAccount.click();
+          window.setTimeout(() => {
+            const getStarted = app.querySelector('[data-action="finish"]');
+            if (getStarted) {
+              getStarted.click();
+              showNotice();
+            }
+            bypassing = false;
+          }, 0);
+        };
+        new MutationObserver(continueToWallet).observe(app, { childList:true, subtree:true });
+        continueToWallet();
+      })();
+    </script>
+  </body>
+</html>

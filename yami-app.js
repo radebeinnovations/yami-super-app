@@ -17,7 +17,6 @@
       // Cross-origin partner apps cannot be enhanced from the Yami shell.
     }
   };
-  const metroBusUrl = 'https://metro-bus-app.vercel.app/';
   const miniDestinations = new Set([
     'ekurhuleni-bus.html', 'metrobus.html', 'yami-bus-selector.html', 'yami-account.html', 'yami-airtime-data.html',
     'yami-electricity.html', 'yami-finance.html', 'yami-history.html', 'yami-money.html', 'yami-scan-pay.html',
@@ -26,12 +25,11 @@
   const openMiniApp = (destination, name) => {
     const parsed = new URL(destination, window.location.href);
     const localDestination = parsed.origin === window.location.origin && miniDestinations.has(parsed.pathname.split('/').pop());
-    const hostedMetroBus = parsed.href === metroBusUrl;
-    if (!localDestination && !hostedMetroBus) return;
+    if (!localDestination) return;
     title.textContent = name || 'Service';
     frame.title = `Yami ${name || 'service'}`;
-    frame.src = destination === 'ekurhuleni-bus.html' ? `${destination}?v=metrobus-10` : hostedMetroBus ? metroBusUrl : destination;
-    busServiceSwitch.hidden = !['ekurhuleni-bus.html', metroBusUrl].includes(destination);
+    frame.src = destination === 'ekurhuleni-bus.html' ? `${destination}?v=metrobus-10` : destination;
+    busServiceSwitch.hidden = !['ekurhuleni-bus.html', 'metrobus.html'].includes(parsed.pathname.split('/').pop());
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
