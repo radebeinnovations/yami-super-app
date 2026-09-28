@@ -20,5 +20,37 @@
   window.addEventListener('yami:wallet-changed', refreshBalance);
   window.addEventListener('storage', (event) => { if (event.key === 'yami.demo.wallet.balance.v1') refreshBalance(); });
   document.querySelector('[data-home]').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+
+  const adverts = [
+    { partner: 'VODACOM', title: 'Mobile data, made easy.', copy: 'Recharge whenever you need it.', cta: 'View offers ↗', href: 'https://www.vodacom.co.za/shopping/shop', image: 'assets/recharge_bg_v3.png' },
+    { partner: 'EKURHULENI BUS', title: 'Ride your city with ease.', copy: 'Plan and pay with KTVR Bus.', cta: 'Visit KTVR ↗', href: 'https://ktvr.co.za/', image: 'assets/ekurhuleni-bus-hero.png' },
+    { partner: 'AIRLINK', title: 'Fly more, connect more.', copy: 'Book your next journey with Airlink.', cta: 'Visit Airlink ↗', href: 'https://www.flyairlink.com/', image: 'assets/airport-airlink.jpg' },
+    { partner: 'PRASA', title: 'Rail travel, made easy.', copy: 'Plan your next journey with PRASA.', cta: 'Visit PRASA ↗', href: 'https://www.prasa.com/Default.aspx', image: 'assets/prasa-train-hero.png' }
+  ];
+  const renderAdvert = (slot, index) => {
+    const advert = adverts[index];
+    slot.href = advert.href;
+    slot.style.backgroundImage = `url("${advert.image}")`;
+    slot.setAttribute('aria-label', `Advertisement: ${advert.partner}. ${advert.title}`);
+    slot.querySelector('.ad-label').textContent = `ADVERTISEMENT · ${advert.partner}`;
+    slot.querySelector('h2').textContent = advert.title;
+    slot.querySelector('p').textContent = advert.copy;
+    slot.querySelector('.ad-cta').textContent = advert.cta;
+    slot.querySelector('.ad-dots').innerHTML = adverts.map((_, dot) => `<i class="${dot === index ? 'is-active' : ''}"></i>`).join('');
+  };
+  document.querySelectorAll('[data-ad-slot]').forEach((slot) => {
+    let index = Number(slot.dataset.adSlot) % adverts.length;
+    renderAdvert(slot, index);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    window.setInterval(() => {
+      if (slot.matches(':hover, :focus-within')) return;
+      slot.classList.add('is-changing');
+      window.setTimeout(() => {
+        index = (index + 1) % adverts.length;
+        renderAdvert(slot, index);
+        window.requestAnimationFrame(() => slot.classList.remove('is-changing'));
+      }, 180);
+    }, 4500);
+  });
   refreshBalance();
 })();

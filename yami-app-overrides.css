@@ -1,17 +1,3 @@
-/* Ekurhuleni Bus focus for the Yami hub. */
-.feature--more {
-  min-height: 190px;
-  background-image: url('assets/ekurhuleni-bus-hero.png');
-}
-
-.feature--more::before {
-  background: linear-gradient(180deg, #034b5550, #063c45df);
-}
-
-.feature--more span {
-  color: #dcf079;
-}
-
 .bottom-nav {
   justify-content: space-around;
   gap: 0;
@@ -58,9 +44,22 @@
 
 /* These image panels are paid-partner placements, not decorative artwork. */
 .feature--ad {
+  min-height: 98px;
+  align-items: center;
+  padding: 13px 15px;
+  background-image: url('assets/recharge_bg_v3.png');
   text-decoration: none;
   cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease;
+  transition: opacity .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.feature--ad > div {
+  width: 100%;
+  max-width: none;
+}
+
+.feature--ad.is-changing {
+  opacity: .38;
 }
 
 .feature--ad:hover {
@@ -78,23 +77,70 @@
   width: max-content;
   max-width: 100%;
   align-items: center;
-  padding: 5px 8px;
+  padding: 4px 7px;
   border-radius: 999px;
   background: #ffffff26;
   color: #fff2ea;
-  font-size: 9px;
+  font-size: 8px;
   line-height: 1;
 }
 
+.feature--ad h2 {
+  max-width: 62%;
+  margin: 6px 0 2px;
+  font-size: clamp(17px, 3.2vw, 21px);
+  line-height: 1.04;
+}
+
+.feature--ad p {
+  max-width: 62%;
+  overflow: hidden;
+  margin: 0;
+  color: #e5f0f4;
+  font-size: 10px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .feature--ad .ad-cta {
+  position: absolute;
+  right: 15px;
+  bottom: 13px;
   display: inline-flex;
-  margin-top: 12px;
-  padding: 7px 10px;
+  margin: 0;
+  padding: 6px 9px;
   border-radius: 999px;
   background: #ffffffea;
   color: var(--navy);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 850;
+}
+
+.feature--ad .ad-dots {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 4px;
+}
+
+.feature--ad .ad-dots i {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #ffffff78;
+}
+
+.feature--ad .ad-dots i.is-active {
+  width: 14px;
+  background: #fff;
+}
+
+@media (max-width: 410px) {
+  .feature--ad h2 { max-width: 58%; font-size: 17px; }
+  .feature--ad p { display: none; }
 }
 
 .bottom-nav {
