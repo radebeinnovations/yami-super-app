@@ -159,3 +159,4 @@
   width: 56px;
   font-size: 8px;
 }
+.mini-app__actions{display:flex;align-items:center;gap:9px}.mini-app__actions .service-switch{display:block;width:auto;height:34px;padding:0 12px;border:1px solid #bdd8e8;border-radius:999px;background:#fff;color:#075a9c;font-size:12px;font-weight:800;line-height:32px;white-space:nowrap}.mini-app__actions .service-switch[hidden]{display:none}@media(max-width:370px){.mini-app__actions .service-switch{padding:0 9px;font-size:11px}}

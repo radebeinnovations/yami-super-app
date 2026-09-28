@@ -3,15 +3,21 @@
   const frame = document.getElementById('mini-frame');
   const title = document.getElementById('mini-title');
   const balance = document.getElementById('wallet-balance');
+  const busServiceSwitch = document.getElementById('switch-bus-service');
   const refreshBalance = () => { if (window.YamiWallet?.get) balance.textContent = window.YamiWallet.format(window.YamiWallet.get()); };
   const closeMiniApp = () => { frame.removeAttribute('src'); modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; refreshBalance(); };
   const configureFrame = () => {
-    const doc = frame.contentDocument;
-    if (!doc?.body) return;
-    if (!doc.getElementById('yami-frame-script')) { const frameUi = doc.createElement('script'); frameUi.id = 'yami-frame-script'; frameUi.src = '/yami-frame.js?v=2'; doc.head.appendChild(frameUi); }
-    if (!doc.querySelector('script[src*="yami-wallet.js"]')) { const wallet = doc.createElement('script'); wallet.src = '/yami-wallet.js?v=1'; doc.body.appendChild(wallet); }
-    if (!doc.querySelector('script[src*="yami-shell.js"]')) { const shell = doc.createElement('script'); shell.src = '/yami-shell.js?v=1'; doc.body.appendChild(shell); }
+    try {
+      const doc = frame.contentDocument;
+      if (!doc?.body) return;
+      if (!doc.getElementById('yami-frame-script')) { const frameUi = doc.createElement('script'); frameUi.id = 'yami-frame-script'; frameUi.src = '/yami-frame.js?v=2'; doc.head.appendChild(frameUi); }
+      if (!doc.querySelector('script[src*="yami-wallet.js"]')) { const wallet = doc.createElement('script'); wallet.src = '/yami-wallet.js?v=1'; doc.body.appendChild(wallet); }
+      if (!doc.querySelector('script[src*="yami-shell.js"]')) { const shell = doc.createElement('script'); shell.src = '/yami-shell.js?v=1'; doc.body.appendChild(shell); }
+    } catch (_) {
+      // Cross-origin partner apps cannot be enhanced from the Yami shell.
+    }
   };
+  const metroBusUrl = 'https://metro-bus-app.vercel.app/';
   const miniDestinations = new Set([
     'ekurhuleni-bus.html', 'metrobus.html', 'yami-bus-selector.html', 'yami-account.html', 'yami-airtime-data.html',
     'yami-electricity.html', 'yami-finance.html', 'yami-history.html', 'yami-money.html', 'yami-scan-pay.html',
@@ -20,16 +26,19 @@
   const openMiniApp = (destination, name) => {
     const parsed = new URL(destination, window.location.href);
     const localDestination = parsed.origin === window.location.origin && miniDestinations.has(parsed.pathname.split('/').pop());
-    if (!localDestination) return;
+    const hostedMetroBus = parsed.href === metroBusUrl;
+    if (!localDestination && !hostedMetroBus) return;
     title.textContent = name || 'Service';
     frame.title = `Yami ${name || 'service'}`;
-    frame.src = destination === 'ekurhuleni-bus.html' ? `${destination}?v=metrobus-10` : destination;
+    frame.src = destination === 'ekurhuleni-bus.html' ? `${destination}?v=metrobus-10` : hostedMetroBus ? metroBusUrl : destination;
+    busServiceSwitch.hidden = !['ekurhuleni-bus.html', metroBusUrl].includes(destination);
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   };
   document.querySelectorAll('[data-open]').forEach((button) => button.addEventListener('click', () => openMiniApp(button.dataset.open, button.dataset.name)));
   document.getElementById('close-mini-app').addEventListener('click', closeMiniApp);
+  busServiceSwitch.addEventListener('click', () => openMiniApp('yami-bus-selector.html', 'Bus'));
   frame.addEventListener('load', () => window.setTimeout(configureFrame, 30));
   window.addEventListener('message', (event) => {
     if (event.origin !== window.location.origin) return;
